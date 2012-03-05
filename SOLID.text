@@ -1,3 +1,7 @@
+title: SOLID Principles 
+author: Raghu Rajagopalan <raghuramanr@aditi.com>
+{{ gradient top-bottom red white }}
+
 Agenda
 ================================================================================
 1. SOLID principles to OO design
@@ -10,6 +14,7 @@ Agenda
     - SOLID principles are about class/type design and implementation.
 1. Walkthrough
 
+{{ help }}
 SOLID Principles
 ================
 1. __S__ - Single Responsibility Principle (SRP) 

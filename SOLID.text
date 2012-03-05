@@ -1,0 +1,511 @@
+Agenda
+================================================================================
+1. SOLID principles to OO design
+    - Focuses on bottom up approach to design.
+        - but keeping these in mind also allows you to avoid mistakes in a top down approach
+    - Scope is generally a single class/type.
+    - dont code today what you cant maintain tomorrow.
+1. Level
+    - Pre-cursor to patterns. Patterns are about a set of communicating classes/types 
+    - SOLID principles are about class/type design and implementation.
+1. Walkthrough
+
+SOLID Principles
+================
+1. __S__ - Single Responsibility Principle (SRP) 
+1. __O__ - Open/Closed Principle (OCP) 
+1. __L__ - Liskov's Substitution Principle (LSP) 
+1. __I__ - Interface Segregation Principle (ISP)
+1. __D__ - Dependency Inversion Principle (DI)
+
+Single Responsibility Principle (SRP)
+=====================================
+
+{% left %}
+
+{% step %}
+* Every class has a single Responsibility.
+* But how do you define a Responsibility? 
+    * An example: Gather data for a report and display it.
+* Symptoms
+1. God Classes
+1. Tight coupling - unrelated changes cause issues.
+{% end %}
+{% end %}
+
+{% right %}
+![SRP](images\single_responsibility_principle_thumb.jpg)
+{% end %}
+
+Open/Closed Principle (OCP) 
+================================
+
+{% left  %}
+* Open for *Extension*
+* Closed  for *modification*
+
+{% step %}
+A type is open for extension by either extending it OR replacing it with another implementation with the desired behavior, however, a type is closed for source level modifications.
+
+- Implementation re-use is acheived by either subclassing or by composition.
+{% end %}
+{% end %}
+
+{% right %}
+![OCP](images\openclosed_principle_thumb.jpg)
+{% end %}
+
+Liskov's Substitution Principle (LSP)
+================================
+
+{% left %}
+* Subclass instances can be used wherever the super-class is used without
+     breaking functionality/correctness in any way.
+
+{% step %}
+Symptoms:
+
+1. RTTI code - typeof abuses.
+{% end %}
+{% end %}
+
+{% right %}
+![OCP](images\liskov_substitution_principle_thumb.jpg)
+{% end %}
+Interface Segregation Principle (ISP)
+======================================
+
+{% left %}
+* Clients of a class/interface/type should not be forced to aware of behavior
+ that they do not need.
+* Prefer thin interfaces to fat ones. Interfaces should only
+    expose the behavior required by the client and not more 
+
+{% step %}
+Symptoms:
+
+1. God classes/Types
+1. To change one piece of behavior, you end up having to implement other un-related functionality.
+{% end %}
+{% end %}
+
+
+{% right %}
+![ISP](images\interface_segregation_principle_thumb.jpg)
+{% end %}
+
+Dependency Inversion (DIP)
+=====================
+
+{% left %}
+* Classes/Interfaces should depend on Abstractions/Types. They should not depend on concrete
+    implementations.
+* What's a dependency?
+    * Implementation - Any type/class used in the implementation
+    * Interface - Anything that shows up in the signature (parameter, return type etc)
+
+{% step %}
+Symptoms:
+
+1. Direct dependency on concrete types (new SomeDerivedClass())
+1. Hard to use a different implementation
+1. Hard to change behavior
+{% end %}
+{% end %}
+
+{% right %}
+![DIP](images\dependency_inversion_principle_thumb.jpg)
+{% end %}
+
+% SOLID in practice
+% ================================================================================
+% 1. Walk the talk - why is it hard?
+%     1. Complexity
+%         - My problem is complex, I can't map it directly to SOLID.
+%     2. Scope
+%         - I just need to get this done - why bother?
+% 1. Popquiz 1: What's the time delta for implementation of a system to just
+% work vs to work while ensuring good design is followed?
+%     1. 2X - good design takes twice longer?
+%     2. 5X - good design takes 5 times as much longer?
+%     3. Lots more than that?
+%     4. Lot less than that?
+% 
+% {% step %}
+% It actually takes about 1.25X to get to a very solid start (pun!!!)
+% The 25% more is repaid back during the course of the implementation,
+% maintenance and extension multiple times.
+% So, in effect, a well designed system takes a lot less to do!!!
+% {% end %}
+% 
+% 1. Popquiz 2 - what's the 25%?
+
+SOLID and Test driven development
+================================================================================
+Practice of writing unit tests first, seeing them fail and then writing just enough code to make the tests pass.
+
+_Fake it till you make it._
+
+{% step %}
+TDD dev cycle
+-------------------
+1. Add Test case with an assert that tests some condition
+2. Run all tests
+3. If the new test breaks, write the code required to pass it.
+4. Refactor to follow DRY.
+
+**Writing tests first is important... if you're writing unit tests later,  you aren't 'Test Driven'**
+{% end %}
+
+
+Why Test Driven?
+========================
+{% step %}
+- Unit testing is also about design with the right level of abstraction.
+- Gives immediate feedback on how your implementation will be used by
+    clients in a different context (in this case the unit test case)
+    - Essentially, forces us to think about how the code will be used!
+    - And highlights problems where the code is hard to be used.
+- If its hard to write unit test cases, then its probably hard for the class to be used as well - early warning system.
+- Improves initial quality levels. Rigorous measure of quality of code that's repeatable.
+
+__Takeaway__ : TDD/Unit tests will not by itself make you design good software. However, it will immediately point out design pitfalls/shortcomings.
+{% end %}
+
+{% step %}
+###Other benefits
+- Formal documentation of expectations from your code.
+- System is easier to extend over time - a good regression suite.
+- Easier to refactor and remove code smells
+    - go ahead move things around, see tests failing
+        and go fix them till they work.
+- Almost always, results in increased velocity.
+{% end %}
+
+Challenges?
+================================================================================
+1. Adoption - requires a mindset change.
+    - After years of just writing code, requires some committment to go to a TDD approach.
+    - No better way than to jump in Head First!
+1. Working with code and frameworks that themselves aren't written with testability in mind poses a challenge.
+1. Requires an initial investment into learning to use unit test frameworks and tools.
+    - Mock frameworks
+    - Advanced features of your preferred unit test tool.
+
+Walkthrough - A 'simple' sort program
+================================================================================
+Let's start with a sort program. Read input from file provided as cmd line arg and sort it. Display output on screen.
+
+{% code lang=csharp %}
+///
+/// This might be how we'd start...
+///
+class Sort {
+    static void main (String[] args)     {
+        if (args.Length  == 0 )  {
+            // print message 
+            return;
+        }
+        String[] lines = System.IO.File.ReadAllLines(args[0]);
+        Array.Sort(lines)
+        for (int i = 0; i < lines.Length; i++) {
+            Console.Writeline(lines[i]);
+        }
+    }
+}
+{% end %}
+
+{% step %}
+_We're not doing TDD here - we're just going to try writing unit tests and see if it helps us arrive at a more extensible system. We're also going to throw in some changes along the way._
+As we're playing a game here, lets see what we can do to make it better.
+{% end %}
+
+SOLID review
+===============================
+{% step %}
+- SRP
+  -   Three distinct actions - reading, sorting and writing the output.
+  -   All three in the same class.
+  -   Any change in any one of them means we have to change the class.
+{% end %}
+
+{% step %}
+* OCP
+  - Single class - and since main is static, we can't really extend it. 
+{% end %}
+
+{% step %}
+* LSP - NA
+{% end %}
+
+{% step %}
+* ISP - NA
+  - We only have sort.main
+{% end %}
+
+{% step %}
+* DIP - NA
+  - Dependencies (System.IO.File, Array, Console) are directly used 
+{% end %}
+
+{% step %}
+Let's start with writing a test case and see if it points us in the right direction?
+
+{% end %}
+
+Starting a test case.
+===============================
+{% code lang=csharp %}
+class SortTest {
+    public void ArgumentTest {
+        Sort.main(new String[]{});
+        //  oops what now? Can't write an assert
+    }
+}
+{% end %}
+{% step %}
+So we've now hit our first problem - though we started with the test case, we
+can't really complete it as is as we can't express a valid assertion.
+{% end %}
+
+Fix the Interface of `main`
+===============================
+So lets change the signature of the main method to fix that.
+
+{% code lang=diff %}
+class Sort {
+-     static void main (String[] args)     {
++     static int main (String[] args)  {
+        if (args.Length  == 0 )  {
+            // print message 
+-            return;
++            return 1;
+        }
+ 
+{% end %}
+
+% And our test case:
+% 
+% {% code lang=csharp %}
+% class SortTest {
+%     public void ArgumentTest {
+%         int retVal = Sort.main(new String[] {});
+%     	Assert.AreEqual(1, retVal);
+%     }
+% }
+% {% end %}
+
+{% step %}
+Takeaway 
+-------------------------------
+If we'd started with the test case instead of the code, we would have hit the
+problem with return value right away and would have saved one iteration.
+
+{% end %}
+
+Let's make it a little more robust
+===============================
+Let's adopt some defensive coding - lets check if the file is really there?
+
+{% code lang=csharp %}
+class Sort {
+    static int main (String[] args)     {
+        if (args.Length  == 0 )  {
+            // print message 
+            return 1;
+        }
+        String filename = args[0];
+        if (!System.IO.File.exists (filename)) {
+            //print error
+            return 2;
+        }
+    }
+}
+
+class SortTest {
+    /// .... other tests
+    public void FileNotExistsTest {
+        Sort.main(new String[] {"c:\\nonsense.txt"});
+        /// whoops
+    }
+}
+{% end %}
+
+The Problem
+===============================
+- The call to `System.IO.File.exists` api is something that now interferes with our ability to write a test case!
+- Since this line is executed, we don't have control on setting up the conditions we need for the test case.
+- Essentially, it introduces an API/resource dependency that is hard to fake.
+- Two approaches:
+    1. Either provide a test file that we can be sure to control.
+    1. Introduce design elements that gives better control.
+
+Mocks to the rescue!
+===============================
+Introduce a thin wrapper interface around System.IO.File that can be mocked.
+
+{% code lang=csharp %}
+class Sort {
+    static IFileWrapper filewrapper = new FileWrapper();
+    static void main (String[] args)     {
+        if (args.Length  == 0 )  {
+            // print message 
+            return 1;
+        }
+        String filename = args[0];
+        if (!filewrapper.Exists(filename)) {
+            //print error
+            return 2;
+        }
+        String[] lines = filewrapper.ReadAllLines(filename);
+        Array.Sort(lines)
+        for (int i = 0; i < lines.Length; i++) {
+            Console.Writeline(lines[i]);
+        }
+    }
+}
+interface IFileWrapper {
+    bool Exists();
+    string[] ReadAllLines();    
+}
+class FileWrapper: IFileWrapper {
+    bool Exists (string path) { return System.IO.File.Exists (path); }  
+    string[] ReadAllLines(string path)
+    {
+        return System.IO.File.ReadAllLines(path);
+    }
+}
+{% end %}
+{% code %}
+class MockFileWrapper: IFileWrapper {
+	
+    bool Exists (string path) { 
+        if (path.contains ("true"))	 {
+            return True;	
+        } else {
+    	    return False; 
+    	}  
+    }
+    string[] ReadAllLines(string path)
+    {
+        return new String[] {"some", "Test", "strings"};
+    }
+}
+class SortTest {
+    public void ArgumentTest {
+        //  
+    }
+    public void FileNotExistsCheck() {
+        MockFileWrapper mfw = new MockFileWrapper();	
+        Sort.filewrapper = mfw;
+        int retval = Sort.main("f:/some/path");
+        Assert.AreEqual (retval, 2);
+    }
+}
+{% end %}
+
+Mocks vs Actual
+===============================
+So in the scenario above pointed to issues we might hit and how to get around them.
+Typical problem areas are:
+
+*Pros*
+
+* Mocks ensure to keep unit tests to the unit level.
+* So when it fails, you know its something in the class under test.
+* They also keep unit tests fast.
+
+*Cons*
+
+* Typically mocks can be used for interfaces or virtual methods.
+* 3rd party dependencies having  the following are things where mocks can't help much
+    * Static objects and methods
+    * Non virtual methods
+    * Sealed types
+
+{% step %}
+Mock frameworks automate the process of creating mocks so we don't have to code them by hand as above.
+They make it easy to set up expectations of what to do when a particular dependency is used.
+{% end %}
+
+Testing 'Sort'
+===============================
+Now we have a similar problem with the Array.Sort call. Solution remains the same
+
+{% code lang=csharp %}
+interface ISort {
+	void sort(String[] theArray);
+}
+class SortImpl: ISort {
+	void  sort (String[] theArray) { Array.Sort(theArray);}
+}
+{% end %}
+
+Let's also take care of OCP while we're at it... All the statics don't look good.
+
+{% code lang=csharp %}
+class Sort {
+    static void main (String[] args)     {
+    	Sort prg=  new Sort(new FileWrapper(), new SortImpl(), System.Out);
+    	return prg.doMain(args);
+    }
+
+    IFileWrapper filewrapper;
+    ISort sorter;
+    Textwriter os;
+    Sort(IFileWrapper filewrapper, ISort sorter, Textwriter os) {
+        this.filewrapper = filewrapper;
+        this.sorter = sorter;	
+        this.os = os;
+    }
+
+    public int doMain(String[] args) {
+        if (args.Length  == 0 )  {
+            // print message 
+            return 1;
+        }
+        String filename = args[0];
+        if (!filewrapper.Exists(filename)) {
+            //print error
+            return 2;
+        }
+        String[] lines = filewrapper.ReadAllLines(filename);
+        sorter.Sort(lines)
+        for (int i = 0; i < lines.Length; i++) {
+            os.Writeline(lines[i]);
+        }
+        return 0;
+    }
+}
+{% end %}
+
+Taking stock
+===============================
+SRP 
+
+- Responsibilities of Reading/Sorting/Writing are split
+- Each can be changed independently.
+
+OCP
+
+- ISort, FileWrapper are Open for extension (subclass the type).
+
+LSP
+
+- Any place an interface is used, we can put any of the supported subclass implementations
+
+ISP
+
+- Earlier, the whole app comprised of a single type (Sort) and a single method (main)
+- Each interface is thin and exposes a set of related apis.
+
+DIP
+
+- No references to concrete types directly (other than in Sort.main)
+- Easy to introduce a factory to abstract that out
+
+Food for thought
+===============================
+1. Extend this to support so that the sort algo used is determined at runtime based on length of the list.
+1. What if you need to support reading from other sources?
+

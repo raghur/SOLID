@@ -24,9 +24,14 @@ Single Responsibility Principle (SRP)
 {% left %}
 
 {% step %}
-* Every class has a single Responsibility.
-* But how do you define a Responsibility? 
+
+Every class has a single Responsibility.
+
+  * But how do you define a Responsibility? 
     * An example: Gather data for a report and display it.
+
+_Every class should have one and only one reason for change_
+
 * Symptoms
 1. God Classes
 1. Tight coupling - unrelated changes cause issues.

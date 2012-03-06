@@ -15,15 +15,16 @@ namespace SortTests
         MockRepository mockRepo;
         Mock<IFileWrapper> fileWrapperMock;
         Mock<TextWriter> mockConsole;
-
+        Program theProgram;
         [TestInitialize]
         public void Setup()
         {
             mockRepo = new MockRepository(MockBehavior.Loose);
             fileWrapperMock = mockRepo.Create<IFileWrapper>();
             mockConsole= mockRepo.Create<System.IO.TextWriter>();
-            Program.filewrapper = fileWrapperMock.Object;
-            Program.writer = mockConsole.Object;
+            ISort sorter = new ArraySorter();
+            theProgram = new Program(fileWrapperMock.Object, sorter, mockConsole.Object);
+            
         }
 
         [TestCleanup]
@@ -37,7 +38,7 @@ namespace SortTests
         {
             mockConsole.Setup(m => m.WriteLine(It.IsAny<String>()));
 
-            int retval = Program.Main (new String[] { });
+            int retval = theProgram.DoMain(new String[] { });
             Assert.AreEqual<int>(1, retval);
         }
 
@@ -50,7 +51,7 @@ namespace SortTests
             
 
             //Act
-            int retval = Program.Main(new String[] { "c:\\nonsense.txt" });
+            int retval = theProgram.DoMain(new String[] { "c:\\nonsense.txt" });
 
             //Assert
             Assert.AreEqual<int>(2, retval);
@@ -64,7 +65,7 @@ namespace SortTests
             fileWrapperMock.Setup(m => m.Exists("c:\\nonsense.txt")).Returns(true);
 
             //Act
-            int retval = Program.Main(new String[] { "c:\\nonsense.txt" });
+            int retval = theProgram.DoMain(new String[] { "c:\\nonsense.txt" });
 
             //Assert
             Assert.AreEqual<int>(0, retval);
@@ -81,7 +82,7 @@ namespace SortTests
             mockConsole.Setup(m => m.WriteLine("c"));
 
             //Act
-            int retval = Program.Main(new String[] { "c:\\nonsense.txt" });
+            int retval = theProgram.DoMain(new String[] { "c:\\nonsense.txt" });
 
             //Assert
             Assert.AreEqual<int>(0, retval);
@@ -96,7 +97,7 @@ namespace SortTests
             // - console should not be invoked - mockConsole.Setup(m => m.WriteLine("a"));
             
             //Act
-            int retval = Program.Main(new String[] { "c:\\nonsense.txt" });
+            int retval = theProgram.DoMain(new String[] { "c:\\nonsense.txt" });
 
             //Assert
             Assert.AreEqual<int>(0, retval);
@@ -113,7 +114,7 @@ namespace SortTests
 
 
             //Act
-            int retval = Program.Main(new String[] { "c:\\nonsense.txt" });
+            int retval = theProgram.DoMain(new String[] { "c:\\nonsense.txt" });
 
             //Assert
             Assert.AreEqual<int>(0, retval);
@@ -132,7 +133,7 @@ namespace SortTests
 
 
             //Act
-            int retval = Program.Main(new String[] { "c:\\nonsense.txt" });
+            int retval = theProgram.DoMain(new String[] { "c:\\nonsense.txt" });
 
             //Assert
             Assert.AreEqual<int>(0, retval);

@@ -3,3 +3,9 @@ SOLID.html
 SOLID.pdf.html
 highlighter/
 s6/
+*.suo
+*.vsmdi
+*.testsettings
+bin/
+obj/
+TestResults/

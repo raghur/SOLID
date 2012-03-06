@@ -6,6 +6,19 @@ using System.IO;
 
 namespace SortApp
 {
+    public interface ISort
+    {
+        void Sort(string[] array);
+    }
+
+    public class ArraySorter:ISort
+    {
+        public void  Sort(string[] array)
+        {
+ 	        Array.Sort(array);
+        }
+    }
+
     public interface IFileWrapper
     {
         bool Exists(String filename);
@@ -28,9 +41,18 @@ namespace SortApp
 
     public class Program
     {
-        public static IFileWrapper filewrapper = new FileWrapper();
-        public static TextWriter writer = Console.Out;
-        public static int Main(string[] args)
+
+        private IFileWrapper filewrapper;
+        private TextWriter writer;
+        private ISort sorter;
+        public Program(IFileWrapper fw, ISort sorter, TextWriter ow)
+        {
+            filewrapper = fw;
+            this.sorter = sorter;
+            writer = ow;
+        }
+
+        public int DoMain(string[] args)
         {
             if (args.Length == 0)
             {
@@ -45,12 +67,21 @@ namespace SortApp
                 return 2;
             }
             string[] lines = filewrapper.ReadAllLines(filename);
-            Array.Sort(lines);
+            sorter.Sort(lines);
             for (int i = 0; i < lines.Length; i++)
             {
                 writer.WriteLine(lines[i]);
             }
             return 0;
+
+        }
+
+        public static int Main(string[] args)
+        {
+            Program instance = new Program(new FileWrapper(),
+                                        new ArraySorter(),
+                                        Console.Out);
+            return instance.DoMain(args);
         }
     }
 }

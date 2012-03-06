@@ -343,7 +343,7 @@ class SortTest {
 
 The Problem
 ===============================
-- The call to `System.IO.File.exists` api is something that now interferes with our ability to write a test case!
+- The call to `System.IO.File.exists` api now restricts us from writing a test case!
 - Since this line is executed, we don't have control on setting up the conditions we need for the test case.
 - Essentially, it introduces an API/resource dependency that is hard to fake.
 - Two approaches:
@@ -355,6 +355,24 @@ Mocks to the rescue!
 Introduce a thin wrapper interface around System.IO.File that can be mocked.
 
 {% code lang=csharp %}
+public interface IFileWrapper {
+    bool Exists();
+    string[] ReadAllLines();    
+}
+
+class FileWrapper: IFileWrapper {
+	string thePath;
+    public FileWrapper(string path)
+    {
+        thePath = path;
+    }
+    public bool Exists () { return System.IO.File.Exists (thePath); }  
+    public string[] ReadAllLines()
+    {
+        return System.IO.File.ReadAllLines(thePath);
+    }
+}
+
 class Sort {
     static IFileWrapper filewrapper = new FileWrapper();
     static void main (String[] args)     {
@@ -363,40 +381,30 @@ class Sort {
             return 1;
         }
         String filename = args[0];
-        if (!filewrapper.Exists(filename)) {
+        if (!filewrapper.Exists()) {
             //print error
             return 2;
         }
-        String[] lines = filewrapper.ReadAllLines(filename);
+        String[] lines = filewrapper.ReadAllLines();
         Array.Sort(lines)
         for (int i = 0; i < lines.Length; i++) {
             Console.Writeline(lines[i]);
         }
     }
 }
-interface IFileWrapper {
-    bool Exists();
-    string[] ReadAllLines();    
-}
-class FileWrapper: IFileWrapper {
-    bool Exists (string path) { return System.IO.File.Exists (path); }  
-    string[] ReadAllLines(string path)
-    {
-        return System.IO.File.ReadAllLines(path);
-    }
-}
+
 {% end %}
 {% code %}
+// rolling out your own mock implementation
 class MockFileWrapper: IFileWrapper {
-	
-    bool Exists (string path) { 
+    bool Exists () { 
         if (path.contains ("true"))	 {
             return True;	
         } else {
     	    return False; 
     	}  
     }
-    string[] ReadAllLines(string path)
+    string[] ReadAllLines()
     {
         return new String[] {"some", "Test", "strings"};
     }
@@ -408,7 +416,7 @@ class SortTest {
     public void FileNotExistsCheck() {
         MockFileWrapper mfw = new MockFileWrapper();	
         Sort.filewrapper = mfw;
-        int retval = Sort.main("f:/some/path");
+        int retval = Sort.main(new string[] {"f:/some/path"});
         Assert.AreEqual (retval, 2);
     }
 }
@@ -451,12 +459,17 @@ class SortImpl: ISort {
 }
 {% end %}
 
-Let's also take care of OCP while we're at it... All the statics don't look good.
+Let's also take care of OCP while we're at it... All the statics don't look good and we left a bug a few slides before
 
 {% code lang=csharp %}
 class Sort {
+	public static TextWriter outwriter = Console.Out;
     static void main (String[] args)     {
-    	Sort prg=  new Sort(new FileWrapper(), new SortImpl(), System.Out);
+        if (args.Length  == 0 )  {
+            // outwriter.Writeline ("print message ");
+            return 1;
+        }
+    	Sort prg=  new Sort(new FileWrapper(args[0]), new SortImpl(), outwriter);
     	return prg.doMain(args);
     }
 
@@ -470,16 +483,11 @@ class Sort {
     }
 
     public int doMain(String[] args) {
-        if (args.Length  == 0 )  {
-            // print message 
-            return 1;
-        }
-        String filename = args[0];
-        if (!filewrapper.Exists(filename)) {
+        if (!filewrapper.Exists()) {
             //print error
             return 2;
         }
-        String[] lines = filewrapper.ReadAllLines(filename);
+        String[] lines = filewrapper.ReadAllLines();
         sorter.Sort(lines)
         for (int i = 0; i < lines.Length; i++) {
             os.Writeline(lines[i]);

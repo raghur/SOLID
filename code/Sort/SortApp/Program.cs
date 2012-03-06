@@ -21,27 +21,64 @@ namespace SortApp
 
     public interface IFileWrapper
     {
-        bool Exists(String filename);
-        String[] ReadAllLines(string filename);
+        bool Exists();
+        String[] ReadAllLines();
     }
-
     public class FileWrapper : IFileWrapper
     {
-
-        public bool Exists(string filename)
+        string thePath;
+        public FileWrapper(string path)
         {
-            return File.Exists(filename);
+            thePath = path;
+        }
+        public bool Exists()
+        {
+            return File.Exists(thePath);
         }
 
-        public string[] ReadAllLines(string filename)
+        public string[] ReadAllLines()
         {
-            return File.ReadAllLines(filename);
+            return File.ReadAllLines(thePath);
+        }
+    }
+
+    public class StreamWrapper : IFileWrapper
+    {
+        StreamReader sr;
+        bool exists;
+        public StreamWrapper(string path)
+        {
+            exists = true;
+            Stream theStream;
+            try
+            {
+                theStream = new FileStream(path, FileMode.Open);
+            }
+            catch (FileNotFoundException)
+            {
+                exists = false;
+                return;
+            }
+            sr = new StreamReader(theStream);
+        }
+        public bool Exists()
+        {
+            return exists;
+        }
+
+        public string[] ReadAllLines()
+        {
+            List<string> lines = new List<string>();
+            while (!sr.EndOfStream)
+            {
+                lines.Add(sr.ReadLine());
+            }
+            return lines.ToArray();
         }
     }
 
     public class Program
     {
-
         private IFileWrapper filewrapper;
         private TextWriter writer;
         private ISort sorter;
@@ -52,36 +89,36 @@ namespace SortApp
             writer = ow;
         }
 
-        public int DoMain(string[] args)
+        public int DoMain()
         {
-            if (args.Length == 0)
+            if (!filewrapper.Exists())
             {
-                writer.WriteLine(" Please provide filename to sort");
-                return 1;
-            }
-
-            String filename = args[0];
-            if (!filewrapper.Exists(filename))
-            {
-                writer.WriteLine("File does not exist: " + filename);
+                writer.WriteLine("File does not exist");
                 return 2;
             }
-            string[] lines = filewrapper.ReadAllLines(filename);
+
+            string[] lines = filewrapper.ReadAllLines();
             sorter.Sort(lines);
+            
             for (int i = 0; i < lines.Length; i++)
             {
                 writer.WriteLine(lines[i]);
             }
             return 0;
-
         }
 
+        public static TextWriter outwriter = Console.Out;
         public static int Main(string[] args)
         {
-            Program instance = new Program(new FileWrapper(),
+            if (args.Length == 0)
+            {
+                outwriter.WriteLine(" Please provide filename to sort");
+                return 1;
+            }
+            Program instance = new Program(new StreamWrapper(args[0]),
                                         new ArraySorter(),
-                                        Console.Out);
-            return instance.DoMain(args);
+                                        outwriter);
+            return instance.DoMain();
         }
     }
 }

@@ -36,9 +36,10 @@ namespace SortTests
         [TestMethod]
         public void TestInputParams()
         {
+            Program.outwriter = mockConsole.Object;
             mockConsole.Setup(m => m.WriteLine(It.IsAny<String>()));
 
-            int retval = theProgram.DoMain(new String[] { });
+            int retval = Program.Main(new String[] { });
             Assert.AreEqual<int>(1, retval);
         }
 
@@ -46,12 +47,12 @@ namespace SortTests
         public void CheckInvalidFile()
         {
             //Arrange
-            fileWrapperMock.Setup(m => m.Exists("c:\\nonsense.txt")).Returns(false);
+            fileWrapperMock.Setup(m => m.Exists()).Returns(false);
             mockConsole.Setup(m => m.WriteLine(It.IsAny<String>()));
             
 
             //Act
-            int retval = theProgram.DoMain(new String[] { "c:\\nonsense.txt" });
+            int retval = theProgram.DoMain();
 
             //Assert
             Assert.AreEqual<int>(2, retval);
@@ -62,10 +63,10 @@ namespace SortTests
         public void CheckValidFile()
         {
             //Arrange
-            fileWrapperMock.Setup(m => m.Exists("c:\\nonsense.txt")).Returns(true);
+            fileWrapperMock.Setup(m => m.Exists()).Returns(true);
 
             //Act
-            int retval = theProgram.DoMain(new String[] { "c:\\nonsense.txt" });
+            int retval = theProgram.DoMain();
 
             //Assert
             Assert.AreEqual<int>(0, retval);
@@ -75,14 +76,14 @@ namespace SortTests
         public void SortData()
         {
             //Arrange
-            fileWrapperMock.Setup(m => m.Exists("c:\\nonsense.txt")).Returns(true);
-            fileWrapperMock.Setup(m => m.ReadAllLines("c:\\nonsense.txt")).Returns(new string[] {"c", "b", "a"});
+            fileWrapperMock.Setup(m => m.Exists()).Returns(true);
+            fileWrapperMock.Setup(m => m.ReadAllLines()).Returns(new string[] {"c", "b", "a"});
             mockConsole.Setup(m => m.WriteLine("a"));
             mockConsole.Setup(m => m.WriteLine("b"));
             mockConsole.Setup(m => m.WriteLine("c"));
 
             //Act
-            int retval = theProgram.DoMain(new String[] { "c:\\nonsense.txt" });
+            int retval = theProgram.DoMain();
 
             //Assert
             Assert.AreEqual<int>(0, retval);
@@ -92,12 +93,12 @@ namespace SortTests
         public void SortDataEmptyFile()
         {
             //Arrange
-            fileWrapperMock.Setup(m => m.Exists("c:\\nonsense.txt")).Returns(true);
-            fileWrapperMock.Setup(m => m.ReadAllLines("c:\\nonsense.txt")).Returns(new string[] {});
+            fileWrapperMock.Setup(m => m.Exists()).Returns(true);
+            fileWrapperMock.Setup(m => m.ReadAllLines()).Returns(new string[] {});
             // - console should not be invoked - mockConsole.Setup(m => m.WriteLine("a"));
             
             //Act
-            int retval = theProgram.DoMain(new String[] { "c:\\nonsense.txt" });
+            int retval = theProgram.DoMain();
 
             //Assert
             Assert.AreEqual<int>(0, retval);
@@ -107,14 +108,14 @@ namespace SortTests
         public void SortDataCheckCase()
         {
             //Arrange
-            fileWrapperMock.Setup(m => m.Exists("c:\\nonsense.txt")).Returns(true);
-            fileWrapperMock.Setup(m => m.ReadAllLines("c:\\nonsense.txt")).Returns(new string[] { "A", "a"});
+            fileWrapperMock.Setup(m => m.Exists()).Returns(true);
+            fileWrapperMock.Setup(m => m.ReadAllLines()).Returns(new string[] { "A", "a"});
             mockConsole.Setup(m => m.WriteLine("a"));
             mockConsole.Setup(m => m.WriteLine("A"));
 
 
             //Act
-            int retval = theProgram.DoMain(new String[] { "c:\\nonsense.txt" });
+            int retval = theProgram.DoMain();
 
             //Assert
             Assert.AreEqual<int>(0, retval);
@@ -124,8 +125,8 @@ namespace SortTests
         public void SortDataCaseInsensitive()
         {
             //Arrange
-            fileWrapperMock.Setup(m => m.Exists("c:\\nonsense.txt")).Returns(true);
-            fileWrapperMock.Setup(m => m.ReadAllLines("c:\\nonsense.txt")).Returns(new string[] { "A", "a", "b", "B" });
+            fileWrapperMock.Setup(m => m.Exists()).Returns(true);
+            fileWrapperMock.Setup(m => m.ReadAllLines()).Returns(new string[] { "A", "a", "b", "B" });
             mockConsole.Setup(m => m.WriteLine("a"));
             mockConsole.Setup(m => m.WriteLine("A"));
             mockConsole.Setup(m => m.WriteLine("b"));
@@ -133,7 +134,7 @@ namespace SortTests
 
 
             //Act
-            int retval = theProgram.DoMain(new String[] { "c:\\nonsense.txt" });
+            int retval = theProgram.DoMain();
 
             //Assert
             Assert.AreEqual<int>(0, retval);

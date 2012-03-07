@@ -13,17 +13,17 @@ namespace SortTests
     public class SortTest
     {
         MockRepository mockRepo;
-        Mock<IFileWrapper> fileWrapperMock;
+        Mock<IFileWrapper> mockFileWrapper;
         Mock<TextWriter> mockConsole;
         Program theProgram;
         [TestInitialize]
         public void Setup()
         {
             mockRepo = new MockRepository(MockBehavior.Loose);
-            fileWrapperMock = mockRepo.Create<IFileWrapper>();
+            mockFileWrapper = mockRepo.Create<IFileWrapper>();
             mockConsole= mockRepo.Create<System.IO.TextWriter>();
             ISort sorter = new ArraySorter();
-            theProgram = new Program(fileWrapperMock.Object, sorter, mockConsole.Object);
+            theProgram = new Program(mockFileWrapper.Object, sorter, mockConsole.Object);
             
         }
 
@@ -47,7 +47,7 @@ namespace SortTests
         public void CheckInvalidFile()
         {
             //Arrange
-            fileWrapperMock.Setup(m => m.Exists()).Returns(false);
+            mockFileWrapper.Setup(m => m.Exists()).Returns(false);
             mockConsole.Setup(m => m.WriteLine(It.IsAny<String>()));
             
 
@@ -63,7 +63,7 @@ namespace SortTests
         public void CheckValidFile()
         {
             //Arrange
-            fileWrapperMock.Setup(m => m.Exists()).Returns(true);
+            mockFileWrapper.Setup(m => m.Exists()).Returns(true);
 
             //Act
             int retval = theProgram.Main();
@@ -76,8 +76,8 @@ namespace SortTests
         public void SortData()
         {
             //Arrange
-            fileWrapperMock.Setup(m => m.Exists()).Returns(true);
-            fileWrapperMock.Setup(m => m.ReadAllLines()).Returns(new string[] {"c", "b", "a"});
+            mockFileWrapper.Setup(m => m.Exists()).Returns(true);
+            mockFileWrapper.Setup(m => m.ReadAllLines()).Returns(new string[] {"c", "b", "a"});
             mockConsole.Setup(m => m.WriteLine("a"));
             mockConsole.Setup(m => m.WriteLine("b"));
             mockConsole.Setup(m => m.WriteLine("c"));
@@ -93,8 +93,8 @@ namespace SortTests
         public void SortDataEmptyFile()
         {
             //Arrange
-            fileWrapperMock.Setup(m => m.Exists()).Returns(true);
-            fileWrapperMock.Setup(m => m.ReadAllLines()).Returns(new string[] {});
+            mockFileWrapper.Setup(m => m.Exists()).Returns(true);
+            mockFileWrapper.Setup(m => m.ReadAllLines()).Returns(new string[] {});
             // - console should not be invoked - mockConsole.Setup(m => m.WriteLine("a"));
             
             //Act
@@ -108,8 +108,8 @@ namespace SortTests
         public void SortDataCheckCase()
         {
             //Arrange
-            fileWrapperMock.Setup(m => m.Exists()).Returns(true);
-            fileWrapperMock.Setup(m => m.ReadAllLines()).Returns(new string[] { "A", "a"});
+            mockFileWrapper.Setup(m => m.Exists()).Returns(true);
+            mockFileWrapper.Setup(m => m.ReadAllLines()).Returns(new string[] { "A", "a"});
             mockConsole.Setup(m => m.WriteLine("a"));
             mockConsole.Setup(m => m.WriteLine("A"));
 
@@ -125,8 +125,8 @@ namespace SortTests
         public void SortDataCaseInsensitive()
         {
             //Arrange
-            fileWrapperMock.Setup(m => m.Exists()).Returns(true);
-            fileWrapperMock.Setup(m => m.ReadAllLines()).Returns(new string[] { "A", "a", "b", "B" });
+            mockFileWrapper.Setup(m => m.Exists()).Returns(true);
+            mockFileWrapper.Setup(m => m.ReadAllLines()).Returns(new string[] { "A", "a", "b", "B" });
             mockConsole.Setup(m => m.WriteLine("a"));
             mockConsole.Setup(m => m.WriteLine("A"));
             mockConsole.Setup(m => m.WriteLine("b"));
@@ -144,8 +144,8 @@ namespace SortTests
         public void CheckExceptionHandlingInRead()
         {
             //Arrange
-            fileWrapperMock.Setup(m => m.Exists()).Returns(true);
-            fileWrapperMock.Setup(m => m.ReadAllLines()).Throws(new IOException("IO Exception occured"));
+            mockFileWrapper.Setup(m => m.Exists()).Returns(true);
+            mockFileWrapper.Setup(m => m.ReadAllLines()).Throws(new IOException("IO Exception occured"));
             mockConsole.Setup(m => m.WriteLine("IO Exception occured"));
 
             //Act

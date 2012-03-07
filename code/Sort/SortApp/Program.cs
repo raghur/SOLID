@@ -19,6 +19,29 @@ namespace SortApp
         }
     }
 
+    public class FullSort : ISort
+    {
+        private IFileWrapper input;
+        private TextWriter output;
+
+        public FullSort(IFileWrapper input, TextWriter output)
+        {
+            this.input = input;
+            this.output = output;
+        }
+
+        public void Sort(string[] array)
+        {
+            string[] lines = input.ReadAllLines();
+
+            Array.Sort(lines);
+            
+            for (int i = 0; i < lines.Length; i++)
+            {
+                output.WriteLine(lines[i]);
+            }
+        }
+    }
     public interface IFileWrapper
     {
         bool Exists();
@@ -82,22 +105,31 @@ namespace SortApp
         private IFileWrapper filewrapper;
         private TextWriter writer;
         private ISort sorter;
-        public Program(IFileWrapper fw, ISort sorter, TextWriter ow)
-        {
-            filewrapper = fw;
-            this.sorter = sorter;
-            writer = ow;
-        }
 
-        public int DoMain()
+        public Program(IFileWrapper fw, ISort sorter, TextWriter tw)
+        {
+            this.filewrapper = fw;
+            this.sorter = sorter;
+            this.writer = tw;
+        }
+        
+        public int Main()
         {
             if (!filewrapper.Exists())
             {
-                writer.WriteLine("File does not exist");
+                writer.WriteLine("Error - input source not readable");
                 return 2;
             }
-
-            string[] lines = filewrapper.ReadAllLines();
+            string[] lines;
+            try
+            {
+                lines = filewrapper.ReadAllLines();
+            }
+            catch (IOException ioe)
+            {
+                writer.WriteLine(ioe.Message);
+                return 3;
+            }
             sorter.Sort(lines);
             
             for (int i = 0; i < lines.Length; i++)
@@ -115,10 +147,12 @@ namespace SortApp
                 outwriter.WriteLine(" Please provide filename to sort");
                 return 1;
             }
-            Program instance = new Program(new StreamWrapper(args[0]),
-                                        new ArraySorter(),
-                                        outwriter);
-            return instance.DoMain();
+            IFileWrapper input = new StreamWrapper(args[0]);
+            ISort sortImpl = new ArraySorter();
+            TextWriter output = Console.Out;
+
+            Program app = new Program(input, sortImpl, output);
+            return app.Main();
         }
     }
 }

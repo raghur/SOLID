@@ -52,7 +52,7 @@ namespace SortTests
             
 
             //Act
-            int retval = theProgram.DoMain();
+            int retval = theProgram.Main();
 
             //Assert
             Assert.AreEqual<int>(2, retval);
@@ -66,7 +66,7 @@ namespace SortTests
             fileWrapperMock.Setup(m => m.Exists()).Returns(true);
 
             //Act
-            int retval = theProgram.DoMain();
+            int retval = theProgram.Main();
 
             //Assert
             Assert.AreEqual<int>(0, retval);
@@ -83,7 +83,7 @@ namespace SortTests
             mockConsole.Setup(m => m.WriteLine("c"));
 
             //Act
-            int retval = theProgram.DoMain();
+            int retval = theProgram.Main();
 
             //Assert
             Assert.AreEqual<int>(0, retval);
@@ -98,7 +98,7 @@ namespace SortTests
             // - console should not be invoked - mockConsole.Setup(m => m.WriteLine("a"));
             
             //Act
-            int retval = theProgram.DoMain();
+            int retval = theProgram.Main();
 
             //Assert
             Assert.AreEqual<int>(0, retval);
@@ -115,7 +115,7 @@ namespace SortTests
 
 
             //Act
-            int retval = theProgram.DoMain();
+            int retval = theProgram.Main();
 
             //Assert
             Assert.AreEqual<int>(0, retval);
@@ -134,10 +134,26 @@ namespace SortTests
 
 
             //Act
-            int retval = theProgram.DoMain();
+            int retval = theProgram.Main();
 
             //Assert
             Assert.AreEqual<int>(0, retval);
+        }
+        
+        [TestMethod]
+        public void CheckExceptionHandlingInRead()
+        {
+            //Arrange
+            fileWrapperMock.Setup(m => m.Exists()).Returns(true);
+            fileWrapperMock.Setup(m => m.ReadAllLines()).Throws(new IOException("IO Exception occured"));
+            mockConsole.Setup(m => m.WriteLine("IO Exception occured"));
+
+            //Act
+            int retval = theProgram.Main();
+
+            //Assert
+            Assert.AreEqual<int>(3, retval);
+            //mock verification of output message print is in the clean up.
         }
     }
 }

@@ -1,20 +1,33 @@
 title: SOLID Principles 
 author: Raghu Rajagopalan <raghuramanr@aditi.com>
-{{ gradient top-bottom red white }}
 
+%css 
+.slide { 
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, 
+from(orange), to(white)); 
+    background-image: -moz-linear-gradient(top, gray, white); 
+} 
+%end 
 Agenda
-================================================================================
-1. SOLID principles to OO design
-    - Focuses on bottom up approach to design.
-        - but keeping these in mind also allows you to avoid mistakes in a top down approach
-    - Scope is generally a single class/type.
-    - dont code today what you cant maintain tomorrow.
-1. Level
-    - Pre-cursor to patterns. Patterns are about a set of communicating classes/types 
-    - SOLID principles are about class/type design and implementation.
-1. Walkthrough
+===============================
+1. Theory: The principles
+1. Tools: Practice
+1. Walkthrough: Putting it together.
+
 
 {{ help }}
+
+SOLID intro
+================================================================================
+
+![principles_level](images\Principles_Pyramid.png)
+
+Principles to OO design
+
+- Focuses on bottom up approach to design.
+    - but keeping these in mind also allows you to avoid mistakes in a top down approach
+- Scope is generally a single class/type.
+
 SOLID Principles
 ================
 1. __S__ - Single Responsibility Principle (SRP) 
@@ -28,15 +41,19 @@ Single Responsibility Principle (SRP)
 
 {% left %}
 
+
+Every class has a one and only one Responsibility.
+
 {% step %}
-
-Every class has a single Responsibility.
-
   * But how do you define a Responsibility? 
     * An example: Gather data for a report and display it.
+{% end %}
 
-_Every class should have one and only one reason for change_
+{% step %}
+Every class should have one and only one **reason for change**
+{% end %}
 
+{% step %}
 * Symptoms
 1. God Classes
 1. Tight coupling - unrelated changes cause issues.
@@ -51,13 +68,19 @@ Open/Closed Principle (OCP)
 ================================
 
 {% left  %}
+Classes are:
+
 * Open for *Extension*
 * Closed  for *modification*
 
 {% step %}
-A type is open for extension by either extending it OR replacing it with another implementation with the desired behavior, however, a type is closed for source level modifications.
+- Open for extension 
+    - Extending behavior by subclassing OR 
+    - replacing it with another implementation 
+- Closed for modification 
+    - You shouldnt have to go modify the source.
 
-- Implementation re-use is acheived by either subclassing or by composition.
+
 {% end %}
 {% end %}
 
@@ -69,8 +92,8 @@ Liskov's Substitution Principle (LSP)
 ================================
 
 {% left %}
-* Subclass instances can be used wherever the super-class is used without
-     breaking functionality/correctness in any way.
+* Subclass instances can be used wherever the super-class is used *without
+     breaking functionality/correctness* in any way.
 
 {% step %}
 Symptoms:
@@ -82,14 +105,19 @@ Symptoms:
 {% right %}
 ![OCP](images\liskov_substitution_principle_thumb.jpg)
 {% end %}
+
 Interface Segregation Principle (ISP)
 ======================================
 
 {% left %}
 * Clients of a class/interface/type should not be forced to aware of behavior
  that they do not need.
+
+{% step %}
 * Prefer thin interfaces to fat ones. Interfaces should only
     expose the behavior required by the client and not more 
+* Behavior exposed by an interface should be highly cohesive 
+{% end %}
 
 {% step %}
 Symptoms:
@@ -110,9 +138,12 @@ Dependency Inversion (DIP)
 {% left %}
 * Classes/Interfaces should depend on Abstractions/Types. They should not depend on concrete
     implementations.
+
+{% step %}
 * What's a dependency?
-    * Implementation - Any type/class used in the implementation
     * Interface - Anything that shows up in the signature (parameter, return type etc)
+    * Implementation - Any type/class used in the implementation
+{% end %}
 
 {% step %}
 Symptoms:
@@ -150,74 +181,40 @@ Symptoms:
 % 
 % 1. Popquiz 2 - what's the 25%?
 
-SOLID and Test driven development
+Part 2 - Practice
 ================================================================================
 
-{% left %}
-Practice of writing unit tests first, seeing them fail and then writing just enough code to make the tests pass.
-
-_Fake it till you make it._
+How useful were these design principles?
 
 {% step %}
-TDD dev cycle
--------------------
-1. Add Test case with an assert that tests some condition
-2. Run all tests
-3. If the new test breaks, write the code required to pass it.
-4. Refactor to follow DRY.
-{% end %}
+![blind](images\bunnyfoot-usability-cartoon-accessibility.gif)
+
+1. While Design principles are great, they still require good judgement.
+    1. Good judgement to recognize where you are now.
+    1. Know where we need to get to.
+
+Sadly, that's easier said than done without something actionable that gives quick feedback.
 {% end %}
 
-{% right %}
+
+
+Test Driven development
+===============================
+{% step %}
 ![TDD dev process](images\tdd_flow.gif)
-{% end %}
 
-{% step %}
 **Writing tests first is important... if you're writing unit tests later,  you aren't 'Test Driven'**
 {% end %}
 
-
-Why Test Driven?
-========================
-
-{% left %}
 {% step %}
-### Because we all want good, solid code!
-- Design with the right level of abstraction.
-- Forces us to think about how the code will be used!
-- Highlights problems early on 
-- If its hard to write unit test cases, then its probably hard for the class to be used as well
-- Improves initial quality levels. 
-- Rigorous measure of quality of code that's repeatable.
-{% end %}
+__TDD and SOLID__
+
+    - TDD/Unit tests will not by itself make you design good software. 
+    - However, it will immediately point out design pitfalls/shortcomings. 
+    - Knowing SOLID, you will be able to refactor your design to overcome design/code smells.
+
 {% end %}
 
-{% right %}
-![Metric](images\good_code.JPG)
-{% end %}
-{% step %}
-__Takeaway__ : TDD/Unit tests will not by itself make you design good software. However, it will immediately point out design pitfalls/shortcomings.
-{% end %}
-
-Other benefits
-===============================
-
-- Formal documentation of expectations from your code.
-- System is easier to extend over time - a good regression suite.
-- Easier to refactor and remove code smells
-    - go ahead move things around, see tests failing
-        and go fix them till they work.
-- Almost always, results in increased velocity.
-
-Challenges?
-================================================================================
-1. Adoption - requires a mindset change.
-    - After years of just writing code, requires some committment to go to a TDD approach.
-    - No better way than to jump in Head First!
-1. Working with code and frameworks that themselves aren't written with testability in mind poses a challenge.
-1. Requires an initial investment into learning to use unit test frameworks and tools.
-    - Mock frameworks
-    - Advanced features of your preferred unit test tool.
 
 Walkthrough - A 'simple' sort program
 ================================================================================
@@ -240,11 +237,6 @@ class Sort {
         }
     }
 }
-{% end %}
-
-{% step %}
-_We're not doing TDD here - we're just going to try writing unit tests and see if it helps us arrive at a more extensible system. We're also going to throw in some changes along the way._
-As we're playing a game here, lets see what we can do to make it better.
 {% end %}
 
 SOLID review
@@ -277,12 +269,26 @@ SOLID review
 {% end %}
 
 {% step %}
-Let's start with writing a test case and see if it points us in the right direction?
-{% end %}
+Let's try TDD and see where we end up?
 
+{% end %}
 
 Starting a test case.
 ===============================
+Code:
+
+{% code lang=csharp %}
+        if (args.Length  == 0 )  {
+            // print message 
+            return;
+        }
+{% end %}
+Test case 1: Does the program handle the case where no argument is supplied?
+
+
+Now the Test case
+===============================
+
 {% code lang=csharp %}
 class SortTest {
     public void ArgumentTest {
@@ -309,7 +315,6 @@ class Sort {
 -            return;
 +            return 1;
         }
- 
 {% end %}
 
 % And our test case:
@@ -336,13 +341,13 @@ Let's make it a little more robust
 ===============================
 Let's adopt some defensive coding - lets check if the file is really there?
 
+Test case 2: Fail if the file does not exist?
+
 {% code lang=csharp %}
 class Sort {
     static int main (String[] args)     {
-        if (args.Length  == 0 )  {
-            // print message 
-            return 1;
-        }
+        // check for arg lenght
+        // code elided...
         String filename = args[0];
         if (!System.IO.File.exists (filename)) {
             //print error
@@ -354,30 +359,38 @@ class Sort {
 class SortTest {
     /// .... other tests
     public void FileNotExistsTest {
-        Sort.main(new String[] {"c:\\nonsense.txt"});
-        /// OOPS !?!
+        int retval = Sort.main(new String[] {"c:\\nonsense.txt"});
+    	Assert.AreEqual<int>(2, retval);
     }
 }
 {% end %}
 
 The Problem
 ===============================
-- The call to `System.IO.File.exists` api now restricts us from writing a test case!
-- Since this line is executed, we don't have control on setting up the conditions we need for the test case.
+- The test case is environment/resource dependent
+- The call to `System.IO.File.exists` api now restricts us from writing a robust test case!
 - Essentially, it introduces an API/resource dependency that is hard to fake.
 - Two approaches:
     1. Either provide a test file that we can be sure to control.
-    1. Introduce design elements that gives better control.
+    1. Introduce design elements that gives better control
+
+{% step %}
+
+1. Arrange somehow within a test case that the condition evaluates to True (__Arrange__)
+2. Then call the method.(__Act__)
+3. And after the method returns, Assert if we got a proper return value.(__Assert__)
+{% end %}
 
 Mocks to the rescue!
 ===============================
-Introduce a thin wrapper interface around System.IO.File that can be faked in test cases to return canned responses required for our test cases.
+So let's refactor the code so that we can Mock the file system API call.
+Introduce a thin wrapper interface around System.IO.File 
 
 {% left %}
+
 {% code lang=csharp %}
 public interface IFileWrapper {
     bool Exists();
-    string[] ReadAllLines();    
 }
 
 class FileWrapper: IFileWrapper {
@@ -387,10 +400,6 @@ class FileWrapper: IFileWrapper {
         thePath = path;
     }
     public bool Exists () { return System.IO.File.Exists (thePath); }  
-    public string[] ReadAllLines()
-    {
-        return System.IO.File.ReadAllLines(thePath);
-    }
 }
 
 class Sort 
@@ -398,7 +407,7 @@ class Sort
     IFileWrapper filewrapper;
 
     Sort(IFileWrapper fw) {
-        filewrapper = fw	
+        filewrapper = fw;
     }
 
     int Main()
@@ -407,11 +416,7 @@ class Sort
             //print error
             return 2;
         }
-        String[] lines = filewrapper.ReadAllLines();
-        Array.Sort(lines)
-        for (int i = 0; i < lines.Length; i++) {
-            Console.Writeline(lines[i]);
-        }
+        // read the file and sort impl here
         return 0;
     }
 
@@ -428,76 +433,125 @@ class Sort
 }
 
 {% end %}
-{% code %}
-// rolling out your own mock implementation
-class MockFileWrapper: IFileWrapper {
-	string path;
-	public MockFileWrapper(string path)
-	{
-	    this.path = pth	
-	}
-    bool Exists () { 
-        return path.contains ("true"));
-    }
-    string[] ReadAllLines()
-    {
-        return new String[] {"some", "Test", "strings"};
-    }
-}
-class SortTest {
-    public void ArgumentTest {
-        //  
-    }
-    public void FileNotExistsCheck() {
-        MockFileWrapper mfw = new MockFileWrapper("/some/test/path");	
-        Sort app = new Sort(mfw);
-        int retval = app.Main();
-        Assert.AreEqual (retval, 2);
-    }
-}
 {% end %}
-{% end %}
-
 {% right %}
-1. Introduce IFileWrapper interface to wrap around `System.IO.File`
 1. In main - Introduce an object so we can create and configure it externally.
-1. Modify the test to create the object and then call main.
 1. Program entry point `static Main()`, is limited to doing basic argument validation and delegating to the object
 
 {% end %}
 
-Mocks vs Actual
-===============================
+!SLIDE 
 
+### Now back to our test case:
+
+1. Modify the test to 
+    - create the `Sort` object, 
+    - give it a fake `IFileWrapper` instance 
+    - then call `main` on the object
+
+{% code %}
+// rolling out your own mock implementation
+class FakeFileWrapper: IFileWrapper {
+	string path;
+	public MockFileWrapper(string path) { this.path = pth; }
+    bool Exists () { return path.contains ("true")); }
+}
+class SortTest {
+    // other tests
+
+    public void FileNotExistsTest() {
+    	// Arrange
+        IFileWrapper mfw = new FakeFileWrapper("/some/test/path");	
+        Sort app = new Sort(mfw);
+
+        // Act
+        int retval = app.Main();
+
+        // Assert
+        Assert.AreEqual (retval, 2);
+    }
+
+    // Also implement the check that if file exists, then we should get 0.
+    public void FileExistsTest() {
+    	// write another test case here..
+    	Assert.AreNotEqual<int> (retval, 2);
+    }
+}
+{% end %}
+!SLIDE
+
+Mocks help in writing robust, stable test cases
+-------------------------------
 *Pros*
 
-* Mocks ensure to keep unit tests to the unit level rather than degrading to full blown unit tests
-    * Think of other dependencies (databases, web services and 3rd party libs)
+* Using mocks lets you keep the scope to the class under test.
 * So when test fails, you know its something in the class under test.
+    - Rather than chasing down a rabbit's hole into what else could have gone wrong in its dependencies.
 * Unit tests are fast - and this is super important since they will ideally run at each commit.
-* Unit tests are robust - success/failure does not depend on the environment
+* Unit tests are robust - success/failure does depends solely on the class under test.
 
-*Cons*
+{% step %}
+
+*Limitations of mocks*
 
 * Typically mocks can be used for interfaces or virtual methods.
 * Statics, non-virtual methods, sealed types are typical problem areas.
     - These force you to either find a class higher up in the hierarchy [GOOD]
     - Or you have to introduce an interface around it [GOOD - BUT NOT ALWAYS POSSIBLE]
 * There are some frameworks that circumvent the above at an IL layer, however we're not going to cover them.
-    * Moles from MSR
+    * Moles - Microsoft Research.
     * Typemock Isolater.
-    + Their primary use case is either working with legacy code AND/OR frameworks (e.g. Sharepoint) that aren't written with testability in mind.
-    + We won't go there for now.
+{% end %}
 
 {% step %}
 Mock frameworks automate the process of creating mocks so we don't have to code them by hand as above.
 They make it easy to set up expectations of what to do when a particular dependency is used.
-
 {% end %}
 
-Testing 'Sort'
+Completing 'Sort'
 ===============================
-Now we have a similar problem with the Array.Sort  and the Console.Writeline calls. Solution remains the same
+Now we have the same issue with `File.ReadAllLines`,  `Array.Sort`  and the `Console.Writeline` calls. 
+
+{% code %}
+class Sort 
+{
+    IFileWrapper filewrapper;
+
+    Sort(IFileWrapper fw) {
+        filewrapper = fw;
+    }
+
+    int Main()
+    {
+        if (!filewrapper.Exists()) {
+            Console.Writeline ("Input file does not exist");
+            return 2;
+        }
+        // read the file contents
+        // sort
+        // print
+        return 0;
+    }
+
+    static int Main (String[] args)     
+    {
+        if (args.Length  == 0 )  {
+            Console.Writeline ("Please supply a file path to sort.")
+            return 1;
+        }
+        IFileWrapper fw = new FileWrapper(args[0]);
+        Sort app = new Sort(fw);
+        return app.Main();
+    }
+}
+
+
+{% end %}
+!SLIDE 
+
+- `File.ReadAllLines` - Add  `ReadAllLines` in the `IFileWrapper` interface.
+- `Array.Sort` - introduce an `ISort` interface
+- `Console.Writeline` - 'IS A' TextWriter - so this is just a case of refactoring our code to depend on a base type rather than a concrete implementation.
 
 {% code lang=csharp %}
 interface ISort {
@@ -576,17 +630,70 @@ Dependency Injection Principle (DIP)
 - No references to concrete types directly (other than in Sort.main)
 - Easy to introduce a factory to abstract that out
 
+
 Food for thought
 ===============================
-1. Extend this to support so that the sort algo used is determined at runtime based number of rows in the data source?
-1. What if you need to support reading from other sources?
-1. Support comment lines - (any number of lines beginning with #) - that don't get sorted and don't get printed out.
 
-Summarizing..
+1. Support comment lines - (any number of lines beginning with #) - that don't get sorted and don't get printed out.
+1. The file to sort can also be placed on a HTTP server. Change the program to support the case where the input is either a file path or a Url.
+1. Default implementation of Array.Sort is Quicksort. For performance reasons, if the file is has less than 1000 records, use quicksort else use Merge sort.
+
+{% step %}
+Has `Sort` become:
+
+- Extensible?
+- More maintainable?
+- Reusable?
+{% end %}
+
+Revisiting TDD
+========================
+
+{% left %}
+{% step %}
+- Drives minimal design with the right level of abstraction.
+    - Helps prevent both under engineering/over engineering.
+- Forces us to think about how the code will be used!
+- Highlights problems early on 
+    - If its hard to write unit test cases, then its probably hard for the class to be used as well
+- Improves initial quality levels.
+- Rigorous measure of quality of code that's repeatable.
+- Almost always, results in increased velocity.
+{% end %}
+{% end %}
+
+{% right %}
+![Metric](images\good_code.JPG)
+{% end %}
+{% step %}
+__Takeaway__ : TDD/Unit tests will not by itself make you design good software. However, it will immediately point out design pitfalls/shortcomings.
+{% end %}
+
+Other benefits
+===============================
+
+- Formal documentation of expectations from your code.
+- System is easier to extend over time - a good regression suite.
+- Easier to refactor and remove code smells
+    - go ahead move things around, see tests failing
+        and go fix them till they work.
+
+Challenges?
+================================================================================
+1. Adoption - requires a mindset change.
+    - After years of just writing code, requires some committment to go to a TDD approach.
+1. Working with code and frameworks that themselves aren't written with testability in mind poses a challenge.
+1. Requires an initial investment into learning to use unit test frameworks and tools.
+    - Mock frameworks
+    - Advanced features of your preferred unit test tool.
+
+
+Summarizing
 ===============================
 1. SOLID helps in arriving at a better system design
 1. Added benefit comes when you couple it with TDD. 
 1. Unit tests are best written _before_ the code.
+    - so that they can drive your design.
 1. Learning to use Mock frameworks takes the pain away from _"fake it till you make it"_ dictum.
 1. Learn to use a DI framework/container.
     -  Ninject is very well regarded in the .NET world.
@@ -595,10 +702,10 @@ Summarizing..
 {% step %}
 Caveats:
 
-1. SOLID are principles - not rules. And it's not a silver bullet.
+1. SOLID are principles - not rules. And it's not a silver bullet. It's _always a judgement call_.
 1. Deciding when to apply them is something that comes with practice.
 1. They're low level - so they won't help you review HLDs. Their use comes during LLD and development 
-
+1. But TDD will help you gain the experience, perspective and insights required to reach there.
 {% end %}
 
 Actual Unit tests

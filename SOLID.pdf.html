@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <title>SOLID Principles</title>
+   
+   
+
+<style>
+html, body { margin: 0; padding: 0; }
+
+body { font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; }
+
+a:link, a:visited { color: black; }
+
+h1 { font-size: 30pt;  }
+h2 { font-size: 28pt;  }
+h3 { font-size: 25pt;  }
+p, li, dt, dd, td, th { font-size: 18pt; }
+
+pre { font-size: 14pt;  }
+pre.small { font-size: 11pt; }
+
+pre.code {
+        background-color: azure;
+        padding: 5px;
+      }
+     
+ul { list-style-type: square; }    
+   
+.center { text-align: center; }   
+     
+.slide { page-break-after: always;
+         min-height: 100mm;
+         padding: 40px;
+         
+         border: 1px dotted black;
+
+/*      
+  background: -moz-linear-gradient( top, maroon, red);
+*/
+       }
+
+.slide { 
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, 
+from(orange), to(white)); 
+    background-image: -moz-linear-gradient(top, gray, white); 
+} 
+
+
+/*
+for princexml (CSS3 paged media support)
+@page { size: A4 landscape }
+*/
+</style>
+
+</head>
+<body>
+
+<div class="presentation">
+
+<div class='slide '>
+<h1 id="agenda">Agenda</h1><ol>
+  <li>Theory: The principles</li>
+  <li>Tools: Practice</li>
+  <li>Walkthrough: Putting it together.</li>
+</ol>
+
+<!-- begin help -->
+<div class="help projection">
+<p><strong>Slide Show Keyboard Controls (Help)</strong></p>
+<table>
+	<tr>
+		<td> Action </td>
+		<td> Key </td>
+	</tr>
+	<tr>
+		<td> Go to next slide </td>
+		<td> Space Bar, Right Arrow, Down Arrow, Page Down, Click Heading </td>
+	</tr>
+	<tr>
+		<td> Go to previous slide </td>
+		<td> Left Arrow, Up Arrow, Page Up </td>
+	</tr>
+	<tr>
+		<td> Toggle between slideshow and outline view (&#216;) </td>
+		<td> T </td>
+	</tr>
+	<tr>
+		<td> Show/hide slide controls (&#216; &laquo; &raquo;) </td>
+		<td> C, Move mouse to bottom right corner </td>
+	</tr>
+	<tr>
+		<td> Zoom in, zoom out, zoom reset (100%)  </td>
+		<td> Control<code>+</code>Plus, Control<code>+</code>Minus, Control<code>+</code><code>0</code> </td>
+	</tr>
+</table>
+</div>
+<!-- end help -->
+
+
+</div>
+<div class='slide '>
+<h1 id="solid-intro">SOLID intro</h1><p><img src="images\Principles_Pyramid.png" alt="principles_level" /></p>
+
+<p>Principles to OO design</p>
+
+<ul>
+  <li>Focuses on bottom up approach to design.
+    <ul>
+      <li>but keeping these in mind also allows you to avoid mistakes in a top down approach</li>
+    </ul>
+  </li>
+  <li>Scope is generally a single class/type.</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<h1 id="solid-principles">SOLID Principles</h1><ol>
+  <li><strong>S</strong> - Single Responsibility Principle (SRP) </li>
+  <li><strong>O</strong> - Open/Closed Principle (OCP) </li>
+  <li><strong>L</strong> - Liskov&rsquo;s Substitution Principle (LSP) </li>
+  <li><strong>I</strong> - Interface Segregation Principle (ISP)</li>
+  <li><strong>D</strong> - Dependency Inversion Principle (DI)</li>
+</ol>
+
+
+</div>
+<div class='slide '>
+<h1 id="single-responsibility-principle-srp">Single Responsibility Principle (SRP)</h1><!-- begin left {} -->
+<table width="100%"><tr><td width="50%" style="vertical-align: top;">
+
+      <p>Every class has a one and only one Responsibility.</p>
+
+      <!-- begin step {} -->
+      <div class="step">
+
+        <ul>
+          <li>But how do you define a Responsibility? 
+            <ul>
+              <li>An example: Gather data for a report and display it.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <!-- end step -->
+
+      <!-- begin step {} -->
+      <div class="step">
+
+        <p>Every class should have one and only one <strong>reason for change</strong></p>
+      </div>
+      <!-- end step -->
+
+      <!-- begin step {} -->
+      <div class="step">
+
+        <ul>
+          <li>Symptoms
+            <ol>
+              <li>God Classes</li>
+              <li>Tight coupling - unrelated changes cause issues.</li>
+            </ol>
+          </li>
+        </ul>
+      </div>
+      <!-- end step -->
+
+    </td>
+<!-- end left -->
+
+
+<!-- begin right {} -->
+<td width="50%" style="vertical-align: top;">
+
+      <p><img src="images\single_responsibility_principle_thumb.jpg" alt="SRP" /></p>
+    </td></tr></table>
+<!-- end right -->
+
+
+</div>
+<div class='slide '>
+<h1 id="openclosed-principle-ocp">Open/Closed Principle (OCP)</h1><!-- begin left {} -->
+<table width="100%"><tr><td width="50%" style="vertical-align: top;">
+
+      <p>Classes are:</p>
+
+      <ul>
+        <li>Open for <em>Extension</em></li>
+        <li>Closed  for <em>modification</em></li>
+      </ul>
+
+      <!-- begin step {} -->
+      <div class="step">
+
+        <ul>
+          <li>Open for extension 
+            <ul>
+              <li>Extending behavior by subclassing OR </li>
+              <li>replacing it with another implementation </li>
+            </ul>
+          </li>
+          <li>Closed for modification 
+            <ul>
+              <li>You shouldnt have to go modify the source.</li>
+            </ul>
+          </li>
+        </ul>
+
+      </div>
+      <!-- end step -->
+
+    </td>
+<!-- end left -->
+
+
+<!-- begin right {} -->
+<td width="50%" style="vertical-align: top;">
+
+      <p><img src="images\openclosed_principle_thumb.jpg" alt="OCP" /></p>
+    </td></tr></table>
+<!-- end right -->
+
+
+</div>
+<div class='slide '>
+<h1 id="liskovs-substitution-principle-lsp">Liskov&rsquo;s Substitution Principle (LSP)</h1><!-- begin left {} -->
+<table width="100%"><tr><td width="50%" style="vertical-align: top;">
+
+      <ul>
+        <li>Subclass instances can be used wherever the super-class is used <em>without
+   breaking functionality/correctness</em> in any way.</li>
+      </ul>
+
+      <!-- begin step {} -->
+      <div class="step">
+
+        <p>Symptoms:</p>
+
+        <ol>
+          <li>RTTI code - typeof abuses.</li>
+        </ol>
+      </div>
+      <!-- end step -->
+
+    </td>
+<!-- end left -->
+
+
+<!-- begin right {} -->
+<td width="50%" style="vertical-align: top;">
+
+      <p><img src="images\liskov_substitution_principle_thumb.jpg" alt="OCP" /></p>
+    </td></tr></table>
+<!-- end right -->
+
+
+</div>
+<div class='slide '>
+<h1 id="interface-segregation-principle-isp">Interface Segregation Principle (ISP)</h1><!-- begin left {} -->
+<table width="100%"><tr><td width="50%" style="vertical-align: top;">
+
+      <ul>
+        <li>Clients of a class/interface/type should not be forced to aware of behavior
+ that they do not need.</li>
+      </ul>
+
+      <!-- begin step {} -->
+      <div class="step">
+
+        <ul>
+          <li>Prefer thin interfaces to fat ones. Interfaces should only
+  expose the behavior required by the client and not more </li>
+          <li>Behavior exposed by an interface should be highly cohesive </li>
+        </ul>
+      </div>
+      <!-- end step -->
+
+      <!-- begin step {} -->
+      <div class="step">
+
+        <p>Symptoms:</p>
+
+        <ol>
+          <li>God classes/Types</li>
+          <li>To change one piece of behavior, you end up having to implement other un-related functionality.</li>
+        </ol>
+      </div>
+      <!-- end step -->
+
+    </td>
+<!-- end left -->
+
+
+
+<!-- begin right {} -->
+<td width="50%" style="vertical-align: top;">
+
+      <p><img src="images\interface_segregation_principle_thumb.jpg" alt="ISP" /></p>
+    </td></tr></table>
+<!-- end right -->
+
+
+</div>
+<div class='slide '>
+<h1 id="dependency-inversion-dip">Dependency Inversion (DIP)</h1><!-- begin left {} -->
+<table width="100%"><tr><td width="50%" style="vertical-align: top;">
+
+      <ul>
+        <li>Classes/Interfaces should depend on Abstractions/Types. They should not depend on concrete
+  implementations.</li>
+      </ul>
+
+      <!-- begin step {} -->
+      <div class="step">
+
+        <ul>
+          <li>What&rsquo;s a dependency?
+            <ul>
+              <li>Interface - Anything that shows up in the signature (parameter, return type etc)</li>
+              <li>Implementation - Any type/class used in the implementation</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <!-- end step -->
+
+      <!-- begin step {} -->
+      <div class="step">
+
+        <p>Symptoms:</p>
+
+        <ol>
+          <li>Direct dependency on concrete types (new SomeDerivedClass())</li>
+          <li>Hard to use a different implementation</li>
+          <li>Hard to change behavior</li>
+        </ol>
+      </div>
+      <!-- end step -->
+
+    </td>
+<!-- end left -->
+
+
+<!-- begin right {} -->
+<td width="50%" style="vertical-align: top;">
+
+      <p><img src="images\dependency_inversion_principle_thumb.jpg" alt="DIP" /></p>
+    </td></tr></table>
+<!-- end right -->
+
+
+</div>
+<div class='slide '>
+<h1 id="part-2---practice">Part 2 - Practice</h1><p>How useful were these design principles?</p>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p><img src="images\bunnyfoot-usability-cartoon-accessibility.gif" alt="blind" /></p>
+
+  <ol>
+    <li>While Design principles are great, they still require good judgement.
+      <ol>
+        <li>Good judgement to recognize where you are now.</li>
+        <li>Know where we need to get to.</li>
+      </ol>
+    </li>
+  </ol>
+
+  <p>Sadly, that&rsquo;s easier said than done without something actionable that gives quick feedback.</p>
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<h1 id="test-driven-development">Test Driven development</h1><!-- begin step {} -->
+<div class="step">
+
+  <p><img src="images\tdd_flow.gif" alt="TDD dev process" /></p>
+
+  <p><strong>Writing tests first is important&hellip; if you&rsquo;re writing unit tests later,  you aren&rsquo;t &lsquo;Test Driven&rsquo;</strong></p>
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p><strong>TDD and SOLID</strong></p>
+
+  <pre><code>- TDD/Unit tests will not by itself make you design good software. 
+- However, it will immediately point out design pitfalls/shortcomings. 
+- Knowing SOLID, you will be able to refactor your design to overcome design/code smells.
+</code></pre>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<h1 id="walkthrough---a-simple-sort-program">Walkthrough - A &lsquo;simple&rsquo; sort program</h1><p>Let&rsquo;s start with a sort program. Read input from file provided as cmd line arg and sort it. Display output on screen.</p>
+
+<!-- begin code{:lang=>"csharp"} -->
+<div class="code"><pre class="brush: csharp toolbar: false gutter: true">
+///
+/// This might be how we'd start...
+///
+class Sort {
+    static void main (String[] args)     {
+        if (args.Length  == 0 )  {
+            // print message 
+            return;
+        }
+        String[] lines = System.IO.File.ReadAllLines(args[0]);
+        Array.Sort(lines)
+        for (int i = 0; i &lt; lines.Length; i++) {
+            Console.Writeline(lines[i]);
+        }
+    }
+}
+</pre></div>
+<!-- end code -->
+
+
+</div>
+<div class='slide '>
+<h1 id="solid-review">SOLID review</h1><!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>Single Responsibility Principle (SRP)
+      <ul>
+        <li>Three distinct actions - reading, sorting and writing the output.</li>
+        <li>All three in the same class.</li>
+        <li>Any change in any one of them means we have to change the class.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>Open/Closed Principle (OCP)
+      <ul>
+        <li>Single class - and since main is static, we can&rsquo;t really extend it. </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>Liskov&rsquo;s Substitution Principle 
+      <ul>
+        <li>LSP - NA</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>Interface Segregation Principle (ISP)
+      <ul>
+        <li>We only have sort.main</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>Dependency Injection Principle (DIP)
+      <ul>
+        <li>Dependencies (System.IO.File, Array, Console) are directly used </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>Let&rsquo;s try TDD and see where we end up?</p>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<h1 id="starting-a-test-case">Starting a test case.</h1><p>Code:</p>
+
+<!-- begin code{:lang=>"csharp"} -->
+<div class="code"><pre class="brush: csharp toolbar: false gutter: true">
+        if (args.Length  == 0 )  {
+            // print message 
+            return;
+        }
+</pre></div>
+<!-- end code -->
+
+<p>Test case 1: Does the program handle the case where no argument is supplied?</p>
+
+
+</div>
+<div class='slide '>
+<h1 id="now-the-test-case">Now the Test case</h1><!-- begin code{:lang=>"csharp"} -->
+<div class="code"><pre class="brush: csharp toolbar: false gutter: true">
+class SortTest {
+    public void ArgumentTest {
+        Sort.main(new String[]{});
+        //  oops what now? Can't write an assert
+    }
+}
+</pre></div>
+<!-- end code -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>So we&rsquo;ve now hit our first problem - though we started with the test case, we
+can&rsquo;t really complete it as is as we can&rsquo;t express a valid assertion.</p>
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<h1 id="fix-the-interface-of-main">Fix the Interface of <code>main</code></h1><p>So lets change the signature of the main method to fix that.</p>
+
+<!-- begin code{:lang=>"diff"} -->
+<div class="code"><pre class="brush: diff toolbar: false gutter: true">
+class Sort {
+-     static void main (String[] args)     {
++     static int main (String[] args)  {
+        if (args.Length  == 0 )  {
+            // print message 
+-            return;
++            return 1;
+        }
+</pre></div>
+<!-- end code -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <h2 id="takeaway">Takeaway</h2>
+  <p>If we&rsquo;d started with the test case instead of the code, we would have hit the
+problem with return value right away and would have saved one iteration.</p>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<h1 id="lets-make-it-a-little-more-robust">Let&rsquo;s make it a little more robust</h1><p>Let&rsquo;s adopt some defensive coding - lets check if the file is really there?</p>
+
+<p>Test case 2: Fail if the file does not exist?</p>
+
+<!-- begin code{:lang=>"csharp"} -->
+<div class="code"><pre class="brush: csharp toolbar: false gutter: true">
+class Sort {
+    static int main (String[] args)     {
+        // check for arg lenght
+        // code elided...
+        String filename = args[0];
+        if (!System.IO.File.exists (filename)) {
+            //print error
+            return 2;
+        }
+    }
+}
+
+class SortTest {
+    /// .... other tests
+    public void FileNotExistsTest {
+        int retval = Sort.main(new String[] {&quot;c:\\nonsense.txt&quot;});
+    	Assert.AreEqual&lt;int&gt;(2, retval);
+    }
+}
+</pre></div>
+<!-- end code -->
+
+
+</div>
+<div class='slide '>
+<h1 id="the-problem">The Problem</h1><ul>
+  <li>The test case is environment/resource dependent</li>
+  <li>The call to <code>System.IO.File.exists</code> api now restricts us from writing a robust test case!</li>
+  <li>Essentially, it introduces an API/resource dependency that is hard to fake.</li>
+  <li>Two approaches:
+    <ol>
+      <li>Either provide a test file that we can be sure to control.</li>
+      <li>Introduce design elements that gives better control</li>
+    </ol>
+  </li>
+</ul>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ol>
+    <li>Arrange somehow within a test case that the condition evaluates to True (<strong>Arrange</strong>)</li>
+    <li>Then call the method.(<strong>Act</strong>)</li>
+    <li>And after the method returns, Assert if we got a proper return value.(<strong>Assert</strong>)</li>
+  </ol>
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<h1 id="mocks-to-the-rescue">Mocks to the rescue!</h1><p>So let&rsquo;s refactor the code so that we can Mock the file system API call.
+Introduce a thin wrapper interface around System.IO.File </p>
+
+<!-- begin left {} -->
+<table width="100%"><tr><td width="50%" style="vertical-align: top;">
+
+      <!-- begin code{:lang=>"csharp"} -->
+      <div class="code"><pre class="brush: csharp toolbar: false gutter: true">
+public interface IFileWrapper {
+    bool Exists();
+}
+
+class FileWrapper: IFileWrapper {
+	string thePath;
+    public FileWrapper(string path)
+    {
+        thePath = path;
+    }
+    public bool Exists () { return System.IO.File.Exists (thePath); }  
+}
+
+class Sort 
+{
+    IFileWrapper filewrapper;
+
+    Sort(IFileWrapper fw) {
+        filewrapper = fw;
+    }
+
+    int Main()
+    {
+        if (!filewrapper.Exists()) {
+            //print error
+            return 2;
+        }
+        // read the file and sort impl here
+        return 0;
+    }
+
+    static int Main (String[] args)     
+    {
+        if (args.Length  == 0 )  {
+            // print message 
+            return 1;
+        }
+        IFileWrapper fw = new FileWrapper(args[0]);
+        Sort app = new Sort(fw);
+        return app.Main();
+    }
+}
+
+</pre></div>
+      <!-- end code -->
+
+    </td>
+<!-- end left -->
+
+<!-- begin right {} -->
+<td width="50%" style="vertical-align: top;">
+
+      <ol>
+        <li>In main - Introduce an object so we can create and configure it externally.</li>
+        <li>Program entry point <code>static Main()</code>, is limited to doing basic argument validation and delegating to the object</li>
+      </ol>
+
+    </td></tr></table>
+<!-- end right -->
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_  
+ -->
+
+<h3 id="now-back-to-our-test-case">Now back to our test case:</h3>
+
+<ol>
+  <li>Modify the test to 
+    <ul>
+      <li>create the <code>Sort</code> object, </li>
+      <li>give it a fake <code>IFileWrapper</code> instance </li>
+      <li>then call <code>main</code> on the object</li>
+    </ul>
+  </li>
+</ol>
+
+<!-- begin code{} -->
+<div class="code"><pre class="brush: ruby toolbar: false gutter: true">
+// rolling out your own mock implementation
+class FakeFileWrapper: IFileWrapper {
+	string path;
+	public MockFileWrapper(string path) { this.path = pth; }
+    bool Exists () { return path.contains (&quot;true&quot;)); }
+}
+class SortTest {
+    // other tests
+
+    public void FileNotExistsTest() {
+    	// Arrange
+        IFileWrapper mfw = new FakeFileWrapper(&quot;/some/test/path&quot;);	
+        Sort app = new Sort(mfw);
+
+        // Act
+        int retval = app.Main();
+
+        // Assert
+        Assert.AreEqual (retval, 2);
+    }
+
+    // Also implement the check that if file exists, then we should get 0.
+    public void FileExistsTest() {
+    	// write another test case here..
+    	Assert.AreNotEqual&lt;int&gt; (retval, 2);
+    }
+}
+</pre></div>
+<!-- end code -->
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ 
+ -->
+
+<h2 id="mocks-help-in-writing-robust-stable-test-cases">Mocks help in writing robust, stable test cases</h2>
+<p><em>Pros</em></p>
+
+<ul>
+  <li>Using mocks lets you keep the scope to the class under test.</li>
+  <li>So when test fails, you know its something in the class under test.
+    <ul>
+      <li>Rather than chasing down a rabbit&rsquo;s hole into what else could have gone wrong in its dependencies.</li>
+    </ul>
+  </li>
+  <li>Unit tests are fast - and this is super important since they will ideally run at each commit.</li>
+  <li>Unit tests are robust - success/failure does depends solely on the class under test.</li>
+</ul>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p><em>Limitations of mocks</em></p>
+
+  <ul>
+    <li>Typically mocks can be used for interfaces or virtual methods.</li>
+    <li>Statics, non-virtual methods, sealed types are typical problem areas.
+      <ul>
+        <li>These force you to either find a class higher up in the hierarchy [GOOD]</li>
+        <li>Or you have to introduce an interface around it [GOOD - BUT NOT ALWAYS POSSIBLE]</li>
+      </ul>
+    </li>
+    <li>There are some frameworks that circumvent the above at an IL layer, however we&rsquo;re not going to cover them.
+      <ul>
+        <li>Moles - Microsoft Research.</li>
+        <li>Typemock Isolater.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>Mock frameworks automate the process of creating mocks so we don&rsquo;t have to code them by hand as above.
+They make it easy to set up expectations of what to do when a particular dependency is used.</p>
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<h1 id="completing-sort">Completing &lsquo;Sort&rsquo;</h1><p>Now we have the same issue with <code>File.ReadAllLines</code>,  <code>Array.Sort</code>  and the <code>Console.Writeline</code> calls. </p>
+
+<!-- begin code{} -->
+<div class="code"><pre class="brush: ruby toolbar: false gutter: true">
+class Sort 
+{
+    IFileWrapper filewrapper;
+
+    Sort(IFileWrapper fw) {
+        filewrapper = fw;
+    }
+
+    int Main()
+    {
+        if (!filewrapper.Exists()) {
+            Console.Writeline (&quot;Input file does not exist&quot;);
+            return 2;
+        }
+        // read the file contents
+        // sort
+        // print
+        return 0;
+    }
+
+    static int Main (String[] args)     
+    {
+        if (args.Length  == 0 )  {
+            Console.Writeline (&quot;Please supply a file path to sort.&quot;)
+            return 1;
+        }
+        IFileWrapper fw = new FileWrapper(args[0]);
+        Sort app = new Sort(fw);
+        return app.Main();
+    }
+}
+
+
+</pre></div>
+<!-- end code -->
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_  
+ -->
+
+<ul>
+  <li><code>File.ReadAllLines</code> - Add  <code>ReadAllLines</code> in the <code>IFileWrapper</code> interface.</li>
+  <li><code>Array.Sort</code> - introduce an <code>ISort</code> interface</li>
+  <li><code>Console.Writeline</code> - &lsquo;IS A&rsquo; TextWriter - so this is just a case of refactoring our code to depend on a base type rather than a concrete implementation.</li>
+</ul>
+
+<!-- begin code{:lang=>"csharp"} -->
+<div class="code"><pre class="brush: csharp toolbar: false gutter: true">
+interface ISort {
+	void sort(String[] theArray);
+}
+class SortImpl: ISort {
+	void  sort (String[] theArray) { Array.Sort(theArray);}
+}
+</pre></div>
+<!-- end code -->
+
+<!-- begin code{:lang=>"csharp"} -->
+<div class="code"><pre class="brush: csharp toolbar: false gutter: true">
+class Sort {
+
+	public static TextWriter outwriter = Console.Out;
+    public static int Main(string[] args)
+    {
+        if (args.Length == 0)
+        {
+            outwriter.WriteLine(&quot; Please provide filename to sort&quot;);
+            return 1;
+        }
+        IFileWrapper input = new FileWrapper(args[0]);
+        ISort sortImpl = new ArraySorter();
+        TextWriter output = Console.Out;
+
+        Program app = new Program(input, sortImpl, output);
+        return app.Main();
+    }
+
+    IFileWrapper filewrapper;
+    ISort sorter;
+    Textwriter os;
+    Sort(IFileWrapper filewrapper, ISort sorter, Textwriter os) {
+        this.filewrapper = filewrapper;
+        this.sorter = sorter;	
+        this.os = os;
+    }
+
+    public int Main() {
+        if (!filewrapper.Exists()) {
+            //print error
+            return 2;
+        }
+        String[] lines = filewrapper.ReadAllLines();
+        sorter.Sort(lines)
+        for (int i = 0; i &lt; lines.Length; i++) {
+            os.Writeline(lines[i]);
+        }
+        return 0;
+    }
+}
+</pre></div>
+<!-- end code -->
+
+
+</div>
+<div class='slide '>
+<h1 id="taking-stock">Taking stock</h1><p>Single Responsibility Principle (SRP)</p>
+
+<ul>
+  <li>Responsibilities of Reading/Sorting/Writing are split</li>
+  <li>Each can be changed independently.</li>
+</ul>
+
+<p>Open/Closed Principle (OCP)</p>
+
+<ul>
+  <li>ISort, FileWrapper are Open for extension (subclass the type).</li>
+</ul>
+
+<p>Liskov&rsquo;s Substitution Principle (LSP)</p>
+
+<ul>
+  <li>Any place an interface is used, we can put any of the supported subclass implementations</li>
+</ul>
+
+<p>Interface Segregation Principle (ISP)</p>
+
+<ul>
+  <li>Earlier, the whole app comprised of a single type (Sort) and a single method (main)</li>
+  <li>Each interface is thin and exposes a set of related apis.</li>
+</ul>
+
+<p>Dependency Injection Principle (DIP)</p>
+
+<ul>
+  <li>No references to concrete types directly (other than in Sort.main)</li>
+  <li>Easy to introduce a factory to abstract that out</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<h1 id="food-for-thought">Food for thought</h1><ol>
+  <li>Support comment lines - (any number of lines beginning with #) - that don&rsquo;t get sorted and don&rsquo;t get printed out.</li>
+  <li>The file to sort can also be placed on a HTTP server. Change the program to support the case where the input is either a file path or a Url.</li>
+  <li>Default implementation of Array.Sort is Quicksort. For performance reasons, if the file is has less than 1000 records, use quicksort else use Merge sort.</li>
+</ol>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>Has <code>Sort</code> become:</p>
+
+  <ul>
+    <li>Extensible?</li>
+    <li>More maintainable?</li>
+    <li>Reusable?</li>
+  </ul>
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<h1 id="revisiting-tdd">Revisiting TDD</h1><!-- begin left {} -->
+<table width="100%"><tr><td width="50%" style="vertical-align: top;">
+
+      <!-- begin step {} -->
+      <div class="step">
+
+        <ul>
+          <li>Drives minimal design with the right level of abstraction.
+            <ul>
+              <li>Helps prevent both under engineering/over engineering.</li>
+            </ul>
+          </li>
+          <li>Forces us to think about how the code will be used!</li>
+          <li>Highlights problems early on 
+            <ul>
+              <li>If its hard to write unit test cases, then its probably hard for the class to be used as well</li>
+            </ul>
+          </li>
+          <li>Improves initial quality levels.</li>
+          <li>Rigorous measure of quality of code that&rsquo;s repeatable.</li>
+          <li>Almost always, results in increased velocity.</li>
+        </ul>
+      </div>
+      <!-- end step -->
+
+    </td>
+<!-- end left -->
+
+
+<!-- begin right {} -->
+<td width="50%" style="vertical-align: top;">
+
+      <p><img src="images\good_code.JPG" alt="Metric" /></p>
+    </td></tr></table>
+<!-- end right -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p><strong>Takeaway</strong> : TDD/Unit tests will not by itself make you design good software. However, it will immediately point out design pitfalls/shortcomings.</p>
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<h1 id="other-benefits">Other benefits</h1><ul>
+  <li>Formal documentation of expectations from your code.</li>
+  <li>System is easier to extend over time - a good regression suite.</li>
+  <li>Easier to refactor and remove code smells
+    <ul>
+      <li>go ahead move things around, see tests failing
+  and go fix them till they work.</li>
+    </ul>
+  </li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<h1 id="challenges">Challenges?</h1><ol>
+  <li>Adoption - requires a mindset change.
+    <ul>
+      <li>After years of just writing code, requires some committment to go to a TDD approach.</li>
+    </ul>
+  </li>
+  <li>Working with code and frameworks that themselves aren&rsquo;t written with testability in mind poses a challenge.</li>
+  <li>Requires an initial investment into learning to use unit test frameworks and tools.
+    <ul>
+      <li>Mock frameworks</li>
+      <li>Advanced features of your preferred unit test tool.</li>
+    </ul>
+  </li>
+</ol>
+
+
+</div>
+<div class='slide '>
+<h1 id="summarizing">Summarizing</h1><ol>
+  <li>SOLID helps in arriving at a better system design</li>
+  <li>Added benefit comes when you couple it with TDD. </li>
+  <li>Unit tests are best written <em>before</em> the code.
+    <ul>
+      <li>so that they can drive your design.</li>
+    </ul>
+  </li>
+  <li>Learning to use Mock frameworks takes the pain away from <em>&ldquo;fake it till you make it&rdquo;</em> dictum.</li>
+  <li>Learn to use a DI framework/container.
+    <ul>
+      <li>Ninject is very well regarded in the .NET world.</li>
+      <li>For Java, Spring is has been around for a long time.</li>
+    </ul>
+  </li>
+</ol>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>Caveats:</p>
+
+  <ol>
+    <li>SOLID are principles - not rules. And it&rsquo;s not a silver bullet. It&rsquo;s <em>always a judgement call</em>.</li>
+    <li>Deciding when to apply them is something that comes with practice.</li>
+    <li>They&rsquo;re low level - so they won&rsquo;t help you review HLDs. Their use comes during LLD and development </li>
+    <li>But TDD will help you gain the experience, perspective and insights required to reach there.</li>
+  </ol>
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<h1 id="actual-unit-tests">Actual Unit tests</h1><!-- begin code{:lang=>"csharp", :name=>"code\\Sort\\SortTests\\SortTest.cs"} -->
+<div class="code"><pre class="brush: csharp toolbar: false gutter: true">﻿using System;
+using System.Text;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+
+namespace SortTests
+{
+    using SortApp;
+    using System.IO;
+    [TestClass]
+    public class SortTest
+    {
+        MockRepository mockRepo;
+        Mock&lt;IFileWrapper&gt; mockFileWrapper;
+        Mock&lt;TextWriter&gt; mockConsole;
+        Program theProgram;
+        [TestInitialize]
+        public void Setup()
+        {
+            mockRepo = new MockRepository(MockBehavior.Loose);
+            mockFileWrapper = mockRepo.Create&lt;IFileWrapper&gt;();
+            mockConsole= mockRepo.Create&lt;System.IO.TextWriter&gt;();
+            ISort sorter = new ArraySorter();
+            theProgram = new Program(mockFileWrapper.Object, sorter, mockConsole.Object);
+            
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            mockRepo.VerifyAll();
+        }
+
+        [TestMethod]
+        public void TestInputParams()
+        {
+            Program.outwriter = mockConsole.Object;
+            mockConsole.Setup(m =&gt; m.WriteLine(It.IsAny&lt;String&gt;()));
+
+            int retval = Program.Main(new String[] { });
+            Assert.AreEqual&lt;int&gt;(1, retval);
+        }
+
+        [TestMethod]
+        public void CheckInvalidFile()
+        {
+            //Arrange
+            mockFileWrapper.Setup(m =&gt; m.Exists()).Returns(false);
+            mockConsole.Setup(m =&gt; m.WriteLine(It.IsAny&lt;String&gt;()));
+            
+
+            //Act
+            int retval = theProgram.Main();
+
+            //Assert
+            Assert.AreEqual&lt;int&gt;(2, retval);
+            
+        }
+
+        [TestMethod]
+        public void CheckValidFile()
+        {
+            //Arrange
+            mockFileWrapper.Setup(m =&gt; m.Exists()).Returns(true);
+
+            //Act
+            int retval = theProgram.Main();
+
+            //Assert
+            Assert.AreEqual&lt;int&gt;(0, retval);
+        }
+
+        [TestMethod]
+        public void SortData()
+        {
+            //Arrange
+            mockFileWrapper.Setup(m =&gt; m.Exists()).Returns(true);
+            mockFileWrapper.Setup(m =&gt; m.ReadAllLines()).Returns(new string[] {&quot;c&quot;, &quot;b&quot;, &quot;a&quot;});
+            mockConsole.Setup(m =&gt; m.WriteLine(&quot;a&quot;));
+            mockConsole.Setup(m =&gt; m.WriteLine(&quot;b&quot;));
+            mockConsole.Setup(m =&gt; m.WriteLine(&quot;c&quot;));
+
+            //Act
+            int retval = theProgram.Main();
+
+            //Assert
+            Assert.AreEqual&lt;int&gt;(0, retval);
+        }
+
+        [TestMethod]
+        public void SortDataEmptyFile()
+        {
+            //Arrange
+            mockFileWrapper.Setup(m =&gt; m.Exists()).Returns(true);
+            mockFileWrapper.Setup(m =&gt; m.ReadAllLines()).Returns(new string[] {});
+            // - console should not be invoked - mockConsole.Setup(m =&gt; m.WriteLine(&quot;a&quot;));
+            
+            //Act
+            int retval = theProgram.Main();
+
+            //Assert
+            Assert.AreEqual&lt;int&gt;(0, retval);
+        }
+
+        [TestMethod]
+        public void SortDataCheckCase()
+        {
+            //Arrange
+            mockFileWrapper.Setup(m =&gt; m.Exists()).Returns(true);
+            mockFileWrapper.Setup(m =&gt; m.ReadAllLines()).Returns(new string[] { &quot;A&quot;, &quot;a&quot;});
+            mockConsole.Setup(m =&gt; m.WriteLine(&quot;a&quot;));
+            mockConsole.Setup(m =&gt; m.WriteLine(&quot;A&quot;));
+
+
+            //Act
+            int retval = theProgram.Main();
+
+            //Assert
+            Assert.AreEqual&lt;int&gt;(0, retval);
+        }
+
+        [TestMethod]
+        public void SortDataCaseInsensitive()
+        {
+            //Arrange
+            mockFileWrapper.Setup(m =&gt; m.Exists()).Returns(true);
+            mockFileWrapper.Setup(m =&gt; m.ReadAllLines()).Returns(new string[] { &quot;A&quot;, &quot;a&quot;, &quot;b&quot;, &quot;B&quot; });
+            mockConsole.Setup(m =&gt; m.WriteLine(&quot;a&quot;));
+            mockConsole.Setup(m =&gt; m.WriteLine(&quot;A&quot;));
+            mockConsole.Setup(m =&gt; m.WriteLine(&quot;b&quot;));
+            mockConsole.Setup(m =&gt; m.WriteLine(&quot;B&quot;));
+
+
+            //Act
+            int retval = theProgram.Main();
+
+            //Assert
+            Assert.AreEqual&lt;int&gt;(0, retval);
+        }
+        
+        [TestMethod]
+        public void CheckExceptionHandlingInRead()
+        {
+            //Arrange
+            mockFileWrapper.Setup(m =&gt; m.Exists()).Returns(true);
+            mockFileWrapper.Setup(m =&gt; m.ReadAllLines()).Throws(new IOException(&quot;IO Exception occured&quot;));
+            mockConsole.Setup(m =&gt; m.WriteLine(&quot;IO Exception occured&quot;));
+
+            //Act
+            int retval = theProgram.Main();
+
+            //Assert
+            Assert.AreEqual&lt;int&gt;(3, retval);
+            //mock verification of output message print is in the clean up.
+        }
+    }
+}
+</pre></div>
+<div class="codeurl">code\Sort\SortTests\SortTest.cs</div>
+<!-- end code -->
+
+
+</div>
+<div class='slide '>
+<h1 id="code">Code</h1><!-- begin code{:lang=>"csharp", :name=>"code\\Sort\\SortApp\\Program.cs"} -->
+<div class="code"><pre class="brush: csharp toolbar: false gutter: true">﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+
+namespace SortApp
+{
+    public interface ISort
+    {
+        void Sort(string[] array);
+    }
+
+    public class ArraySorter:ISort
+    {
+        public void  Sort(string[] array)
+        {
+ 	        Array.Sort(array);
+        }
+    }
+
+    public class FullSort : ISort
+    {
+        private IFileWrapper input;
+        private TextWriter output;
+
+        public FullSort(IFileWrapper input, TextWriter output)
+        {
+            this.input = input;
+            this.output = output;
+        }
+
+        public void Sort(string[] array)
+        {
+            string[] lines = input.ReadAllLines();
+
+            Array.Sort(lines);
+            
+            for (int i = 0; i &lt; lines.Length; i++)
+            {
+                output.WriteLine(lines[i]);
+            }
+        }
+    }
+    public interface IFileWrapper
+    {
+        bool Exists();
+        String[] ReadAllLines();
+    }
+    public class FileWrapper : IFileWrapper
+    {
+        string thePath;
+        public FileWrapper(string path)
+        {
+            thePath = path;
+        }
+        public bool Exists()
+        {
+            return File.Exists(thePath);
+        }
+
+        public string[] ReadAllLines()
+        {
+            return File.ReadAllLines(thePath);
+        }
+    }
+
+    public class StreamWrapper : IFileWrapper
+    {
+        StreamReader sr;
+        bool exists;
+        public StreamWrapper(string path)
+        {
+            exists = true;
+            Stream theStream;
+            try
+            {
+                theStream = new FileStream(path, FileMode.Open);
+            }
+            catch (FileNotFoundException)
+            {
+                exists = false;
+                return;
+            }
+            sr = new StreamReader(theStream);
+        }
+        public bool Exists()
+        {
+            return exists;
+        }
+
+        public string[] ReadAllLines()
+        {
+            List&lt;string&gt; lines = new List&lt;string&gt;();
+            while (!sr.EndOfStream)
+            {
+                lines.Add(sr.ReadLine());
+            }
+            return lines.ToArray();
+        }
+    }
+
+    public class Program
+    {
+        private IFileWrapper filewrapper;
+        private TextWriter writer;
+        private ISort sorter;
+
+        public Program(IFileWrapper fw, ISort sorter, TextWriter tw)
+        {
+            this.filewrapper = fw;
+            this.sorter = sorter;
+            this.writer = tw;
+        }
+        
+        public int Main()
+        {
+            if (!filewrapper.Exists())
+            {
+                writer.WriteLine(&quot;Error - input source not readable&quot;);
+                return 2;
+            }
+            string[] lines;
+            try
+            {
+                lines = filewrapper.ReadAllLines();
+            }
+            catch (IOException ioe)
+            {
+                writer.WriteLine(ioe.Message);
+                return 3;
+            }
+            sorter.Sort(lines);
+            
+            for (int i = 0; i &lt; lines.Length; i++)
+            {
+                writer.WriteLine(lines[i]);
+            }
+            return 0;
+        }
+
+        public static TextWriter outwriter = Console.Out;
+        public static int Main(string[] args)
+        {
+            if (args.Length == 0)
+            {
+                outwriter.WriteLine(&quot; Please provide filename to sort&quot;);
+                return 1;
+            }
+            IFileWrapper input = new StreamWrapper(args[0]);
+            ISort sortImpl = new ArraySorter();
+            TextWriter output = Console.Out;
+
+            Program app = new Program(input, sortImpl, output);
+            return app.Main();
+        }
+    }
+}
+</pre></div>
+<div class="codeurl">code\Sort\SortApp\Program.cs</div>
+<!-- end code -->
+
+</div>
+
+
+  </div> <!-- presentation -->
+</body>
+</html> 
+

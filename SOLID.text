@@ -5,15 +5,21 @@ author: Raghu Rajagopalan <raghuramanr@aditi.com>
 .slide { 
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, 
 from(orange), to(white)); 
-    background-image: -moz-linear-gradient(top, gray, white); 
+    background-image: -moz-linear-gradient(top, orange, white); 
 } 
+
+#footer {
+    background-image: url(images/footer_bg_dark.png);
+}
+#header {
+    background-image: url(images/header_bg.png);
+}
 %end 
 Agenda
 ===============================
 1. Theory: The principles
 1. Tools: Practice
 1. Walkthrough: Putting it together.
-
 
 {{ help }}
 

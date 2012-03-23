@@ -5,15 +5,27 @@ author: Raghu Rajagopalan <raghuramanr@aditi.com>
 .slide { 
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, 
 from(orange), to(white)); 
-    background-image: -moz-linear-gradient(top, gray, white); 
+    background-image: -moz-linear-gradient(top, orange, white); 
 } 
+
+#footer {
+    background-image: url(images/footer_bg_dark.png);
+    background-repeat:no-repeat ;
+
+}
+#header {
+    background-image: url(images/header_bg.png);
+    background-repeat:no-repeat ;
+}
+h1  {
+    margin-top:0px;	
+}
 %end 
 Agenda
 ===============================
 1. Theory: The principles
 1. Tools: Practice
 1. Walkthrough: Putting it together.
-
 
 {{ help }}
 
@@ -200,20 +212,23 @@ Sadly, that's easier said than done without something actionable that gives quic
 
 Test Driven development
 ===============================
+
 {% step %}
 ![TDD dev process](images\tdd_flow.gif)
-
-**Writing tests first is important... if you're writing unit tests later,  you aren't 'Test Driven'**
 {% end %}
 
-{% step %}
-__TDD and SOLID__
 
-    - TDD/Unit tests will not by itself make you design good software. 
-    - However, it will immediately point out design pitfalls/shortcomings. 
-    - Knowing SOLID, you will be able to refactor your design to overcome design/code smells.
+TDD and Design
+===============================
 
-{% end %}
+- TDD approach forces one to think how code will be used in a different context.
+- Writing testable code drives good design characteristics
+    - loose coupling
+    - Dependency Inversion
+    - High cohesion
+- TDD/Unit tests will not by itself make you design good software.
+- However, it will immediately point out design pitfalls/shortcomings.
+
 
 
 Walkthrough - A 'simple' sort program
@@ -365,14 +380,21 @@ class SortTest {
 }
 {% end %}
 
-The Problem
+It's a valid test BUT...
 ===============================
+
 - The test case is environment/resource dependent
-- The call to `System.IO.File.exists` api now restricts us from writing a robust test case!
-- Essentially, it introduces an API/resource dependency that is hard to fake.
-- Two approaches:
-    1. Either provide a test file that we can be sure to control.
-    1. Introduce design elements that gives better control
+- Dependency of `System.IO.File` is making it hard to write a test case - since this is always executed.
+- What can we do?
+    1. Ensure somehow that the file does not exist?
+    1. Break the dependency on `System.IO.File`?
+
+{% step %}
+### Option 1 is an anti pattern - that path leads to tears, trouble and pain.
+{% end %}
+
+Refactoring
+===============================
 
 {% step %}
 

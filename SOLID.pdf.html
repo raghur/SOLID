@@ -44,8 +44,21 @@ ul { list-style-type: square; }
 .slide { 
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, 
 from(orange), to(white)); 
-    background-image: -moz-linear-gradient(top, gray, white); 
+    background-image: -moz-linear-gradient(top, orange, white); 
 } 
+
+#footer {
+    background-image: url(images/footer_bg_dark.png);
+    background-repeat:no-repeat ;
+
+}
+#header {
+    background-image: url(images/header_bg.png);
+    background-repeat:no-repeat ;
+}
+h1  {
+    margin-top:0px;	
+}
 
 
 /*
@@ -380,23 +393,24 @@ for princexml (CSS3 paged media support)
 <div class="step">
 
   <p><img src="images\tdd_flow.gif" alt="TDD dev process" /></p>
-
-  <p><strong>Writing tests first is important&hellip; if you&rsquo;re writing unit tests later,  you aren&rsquo;t &lsquo;Test Driven&rsquo;</strong></p>
 </div>
 <!-- end step -->
 
-<!-- begin step {} -->
-<div class="step">
-
-  <p><strong>TDD and SOLID</strong></p>
-
-  <pre><code>- TDD/Unit tests will not by itself make you design good software. 
-- However, it will immediately point out design pitfalls/shortcomings. 
-- Knowing SOLID, you will be able to refactor your design to overcome design/code smells.
-</code></pre>
 
 </div>
-<!-- end step -->
+<div class='slide '>
+<h1 id="tdd-and-design">TDD and Design</h1><ul>
+  <li>TDD approach forces one to think how code will be used in a different context.</li>
+  <li>Writing testable code drives good design characteristics
+    <ul>
+      <li>loose coupling</li>
+      <li>Dependency Inversion</li>
+      <li>High cohesion</li>
+    </ul>
+  </li>
+  <li>TDD/Unit tests will not by itself make you design good software.</li>
+  <li>However, it will immediately point out design pitfalls/shortcomings.</li>
+</ul>
 
 
 </div>
@@ -602,19 +616,28 @@ class SortTest {
 
 </div>
 <div class='slide '>
-<h1 id="the-problem">The Problem</h1><ul>
+<h1 id="its-a-valid-test-but">It&rsquo;s a valid test BUT&hellip;</h1><ul>
   <li>The test case is environment/resource dependent</li>
-  <li>The call to <code>System.IO.File.exists</code> api now restricts us from writing a robust test case!</li>
-  <li>Essentially, it introduces an API/resource dependency that is hard to fake.</li>
-  <li>Two approaches:
+  <li>Dependency of <code>System.IO.File</code> is making it hard to write a test case - since this is always executed.</li>
+  <li>What can we do?
     <ol>
-      <li>Either provide a test file that we can be sure to control.</li>
-      <li>Introduce design elements that gives better control</li>
+      <li>Ensure somehow that the file does not exist?</li>
+      <li>Break the dependency on <code>System.IO.File</code>?</li>
     </ol>
   </li>
 </ul>
 
 <!-- begin step {} -->
+<div class="step">
+
+  <h3 id="option-1-is-an-anti-pattern---that-path-leads-to-tears-trouble-and-pain">Option 1 is an anti pattern - that path leads to tears, trouble and pain.</h3>
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<h1 id="refactoring">Refactoring</h1><!-- begin step {} -->
 <div class="step">
 
   <ol>

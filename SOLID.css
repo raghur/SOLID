@@ -91,5 +91,18 @@ p.tiny     { font-size: 82%; }
 .slide { 
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, 
 from(orange), to(white)); 
-    background-image: -moz-linear-gradient(top, gray, white); 
+    background-image: -moz-linear-gradient(top, orange, white); 
 } 
+
+#footer {
+    background-image: url(images/footer_bg_dark.png);
+    background-repeat:no-repeat ;
+
+}
+#header {
+    background-image: url(images/header_bg.png);
+    background-repeat:no-repeat ;
+}
+h1  {
+    margin-top:0px;	
+}
